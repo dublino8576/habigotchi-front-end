@@ -7,7 +7,9 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 
-export default function TabTwoScreen() {
+import EditPet from "../drawers/edit-pet";
+
+export default function Pet() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}
@@ -23,6 +25,7 @@ export default function TabTwoScreen() {
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Pet</ThemedText>
       </ThemedView>
+      <EditPet />
     </ParallaxScrollView>
   );
 }

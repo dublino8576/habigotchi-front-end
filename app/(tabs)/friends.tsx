@@ -6,8 +6,10 @@ import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
+import AddFriend from "../drawers/add-friend";
+import ViewFriend from "../drawers/view-friend";
 
-export default function TabTwoScreen() {
+export default function Friends() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}
@@ -23,6 +25,8 @@ export default function TabTwoScreen() {
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Friends</ThemedText>
       </ThemedView>
+      <AddFriend />
+      <ViewFriend />
     </ParallaxScrollView>
   );
 }
