@@ -7,10 +7,13 @@ import {
   Image,
   TextInput,
   FlatList,
+  Pressable,
 } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import React from "react";
-export default function Index() {
+import { Link } from "expo-router";
+
+export default function OnboardingOne() {
   const [text, onChangeText] = React.useState("Useless Text");
   const [number, onChangeNumber] = React.useState("");
   const images = [
@@ -84,11 +87,12 @@ export default function Index() {
           placeholder="write a profile status..."
           placeholderTextColor="gray"
         />
-        <Button
-          title="Save"
-          color="#F194FF"
-          onPress={() => Alert.alert("Button with adjusted color pressed")}
-        />
+        <Link href="/onboarding/onboarding-two" asChild>
+     <Pressable style={styles.buttonClose}>
+      <Text style={styles.textStyle}>Continue</Text>
+     </Pressable>
+     </Link>
+  
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -103,5 +107,22 @@ const styles = StyleSheet.create({
     padding: 10,
     alignSelf: "center",
     color: "red",
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#0099FF",
+  },
+  buttonClose: {
+    backgroundColor: "#0099FF",
+    marginBottom: 15,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });

@@ -8,10 +8,14 @@ import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import CreateHabit from "../drawers/create-habit";
 import EditHabit from "../drawers/edit-habit";
+import { useState } from "react";
+import OnboardingOne from "../onboarding/onboarding-one";
+
 
 export default function Habits() {
-  return (
-    <ParallaxScrollView
+  const [isOnboarded, setIsOnboarded] = useState(false)
+  return (<>
+    {!isOnboarded ? (<OnboardingOne />) : (<ParallaxScrollView
       headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}
       headerImage={
         <IconSymbol
@@ -27,7 +31,8 @@ export default function Habits() {
       </ThemedView>
       <CreateHabit />
       <EditHabit />
-    </ParallaxScrollView>
+    </ParallaxScrollView>)}
+    </>
   );
 }
 
