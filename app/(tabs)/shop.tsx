@@ -6,7 +6,7 @@ import {
   Text,
   ScrollView,
 } from "react-native";
-import { Header } from "@/components/header";
+import { Header } from "@/components/Header";
 import { Collapsible } from "@/components/Collapsible";
 import { ExternalLink } from "@/components/ExternalLink";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
