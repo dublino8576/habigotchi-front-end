@@ -11,8 +11,6 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
-  // state in here to decide what to render, e.g is onboarding complete? (only needs to be done once)
-
   return (
     <Tabs
       screenOptions={{
