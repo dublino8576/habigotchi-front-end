@@ -8,19 +8,13 @@ import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 
 import EditPet from "../drawers/edit-pet";
+import { Header } from "@/components/Header";
 
 export default function Pet() {
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="pawprint.fill"
-          style={styles.headerImage}
-        />
-      }
+      headerImage={<Header></Header>}
     >
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title">Pet</ThemedText>
