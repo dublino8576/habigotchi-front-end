@@ -1,107 +1,51 @@
-import {
-  Text,
-  View,
-  Button,
-  Alert,
-  StyleSheet,
-  Image,
-  TextInput,
-  FlatList,
-} from "react-native";
-import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
-import React from "react";
+import { StyleSheet, Pressable, Text, View } from "react-native";
+import { useRouter } from "expo-router";
+
 export default function OnboardingTwo() {
-  const [text, onChangeText] = React.useState("Useless Text");
-  const [number, onChangeNumber] = React.useState("");
-  const images = [
-    require("../../assets/images/cat.webp"),
-    require("../../assets/images/dog.jpg"),
-    require("../../assets/images/owl.jpg"),
-  ];
-  const [character, setCharacter] = React.useState(0);
-  const changeCharacter = () => {
-    if (character == 2) {
-      setCharacter(0);
-    } else {
-      setCharacter(character + 1);
-    }
-  };
+  const router = useRouter();
+
   return (
-    <SafeAreaProvider
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <SafeAreaView
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+    <View style={styles.container}>
+      <Text style={styles.title}>Habigotchi</Text>
+      <Text>Enter a username</Text>
+      <Pressable
+        style={styles.button}
+        onPress={() => router.push("/onboarding/onboarding-three")}
       >
-        <Text style={{ fontSize: 25, fontWeight: 600 }}>Habigotchi</Text>
-        <Text style={{ margin: 30, fontSize: 15 }}>
-          Select and name your pet
-        </Text>
-        <SafeAreaView
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
-          <Button
-            title="<----  "
-            color="#F194FF"
-            onPress={() => {
-              changeCharacter();
-            }}
-          />
-          <Image
-            id="character-image"
-            source={images[character]}
-            style={{ width: 170, height: 170 }}
-          ></Image>
-          <Button
-            title="---->"
-            color="#F194FF"
-            onPress={() => {
-              changeCharacter();
-            }}
-          />
-        </SafeAreaView>
-      </SafeAreaView>
-      <SafeAreaView>
-        <TextInput
-          style={styles.input}
-          placeholder="enter pet name..."
-          placeholderTextColor="gray"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="write a profile status..."
-          placeholderTextColor="gray"
-        />
-        <Button
-          title="Save"
-          color="#F194FF"
-          onPress={() => Alert.alert("Button with adjusted color pressed")}
-        />
-      </SafeAreaView>
-    </SafeAreaProvider>
+        <Text style={styles.textStyle}>Continue</Text>
+      </Pressable>
+      <Pressable
+        style={styles.button}
+        onPress={() => router.push("/onboarding/onboarding-one")}
+      >
+        <Text style={styles.textStyle}>Back</Text>
+      </Pressable>
+    </View>
   );
 }
+
 const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    width: 160,
-    margin: 6,
-    borderWidth: 1,
-    borderRadius: 15,
-    padding: 10,
-    alignSelf: "center",
-    color: "red",
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "white",
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: "#0099FF",
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 5,
+    marginBottom: 10,
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center",
   },
 });
