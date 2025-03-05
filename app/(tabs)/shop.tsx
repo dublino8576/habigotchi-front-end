@@ -14,6 +14,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
+import { CarouselView } from "@/components/CarouselView";
 
 export default function Shop() {
   const items = [
@@ -21,7 +22,7 @@ export default function Shop() {
       id: "1",
       name: "Re-energizer",
       price: "100 coins",
-      img_url: require("../../assets/images/plug.png"),
+      img_url: require("../../assets/images/plug-square.png"),
       health: "50",
       happiness: "20",
     },
@@ -37,7 +38,7 @@ export default function Shop() {
       id: "3",
       name: "Doe",
       price: "150 coins",
-      img_url: require("../../assets/images/dog-bone.png"),
+      img_url: require("../../assets/images/donut-perfect.png"),
       health: "50",
       happiness: "20",
     },
@@ -51,7 +52,8 @@ export default function Shop() {
       >
         SHOP
       </Text>
-      <ScrollView contentContainerStyle={{ paddingBottom: 0 }}>
+      <CarouselView items={items}/>
+      {/* <ScrollView contentContainerStyle={{ paddingBottom: 0 }}>
         {items.map((item) => {
           return (
             <View
@@ -121,7 +123,7 @@ export default function Shop() {
             </View>
           );
         })}
-      </ScrollView>
+      </ScrollView> */}
     </SafeAreaView>
   );
 }
