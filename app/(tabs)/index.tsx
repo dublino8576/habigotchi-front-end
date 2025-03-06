@@ -63,7 +63,7 @@ export default function Habits() {
             <ThemedText type="title">Habits</ThemedText>
           </ThemedView>
           <CreateHabit />
-          <EditHabit />
+
           {habits.map(
             (habit: {
               completedTasks: number;
@@ -85,6 +85,7 @@ export default function Habits() {
                       styles.completedHabitContainer,
                   ]}
                 >
+                  <EditHabit />
                   <Text style={styles.habitName}>{habit.name}</Text>
                   <Text style={styles.habitDescription}>
                     {habit.description}
