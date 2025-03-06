@@ -15,22 +15,28 @@ import Animated, {
   useAnimatedScrollHandler,
   interpolate,
 } from "react-native-reanimated";
-import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import { Gesture } from "react-native-gesture-handler";
 
 type Item = {
-  img_url: string;
+  img_url: any;
   name: string;
-  health: number;
-  happiness: number;
-  price: number;
+  health: string;
+  happiness: string;
+  price: string;
+  key?: string;
+};
+type Spacer = {
   key: string;
 };
+
+type CarouselItem = Item | Spacer;
+
 type CarouselProps = {
-  items: Item[];
+  items: CarouselItem[];
 };
 
 export const CarouselView: React.FC<CarouselProps> = ({ items }) => {
-  const [newItems] = useState([
+  const [newItems] = useState<CarouselItem[]>([
     { key: "spacer-left" },
     ...items,
     { key: "spacer-right" },

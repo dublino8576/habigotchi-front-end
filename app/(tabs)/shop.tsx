@@ -1,21 +1,7 @@
-import {
-  StyleSheet,
-  Image,
-  Platform,
-  View,
-  Text,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { Header } from "@/components/Header";
-import { Collapsible } from "@/components/Collapsible";
-import { ExternalLink } from "@/components/ExternalLink";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
-import { IconSymbol } from "@/components/ui/IconSymbol";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { CarouselView } from "@/components/CarouselView";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function Shop() {
   const items = [
@@ -26,6 +12,7 @@ export default function Shop() {
       img_url: require("../../assets/images/plug-square.png"),
       health: "50",
       happiness: "20",
+      key: "1",
     },
     {
       id: "2",
@@ -34,6 +21,7 @@ export default function Shop() {
       img_url: require("../../assets/images/dog-bone.png"),
       health: "50",
       happiness: "20",
+      key: "2",
     },
     {
       id: "3",
@@ -42,6 +30,7 @@ export default function Shop() {
       img_url: require("../../assets/images/donut-perfect.png"),
       health: "50",
       happiness: "20",
+      key: "3",
     },
   ];
   return (
