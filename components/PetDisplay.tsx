@@ -9,9 +9,7 @@ const styles = StyleSheet.create({
     height: 140,
     alignSelf: "center",
     marginTop: 20,
-    // borderRadius: 100,
-    // borderWidth: 6,
-    // borderColor: "#FFD700",
+
     // shadowColor: "#FFD700",
     // shadowOffset: { width: 0, height: 10 },
     // shadowOpacity: 0.5,

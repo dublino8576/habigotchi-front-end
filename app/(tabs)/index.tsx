@@ -1,5 +1,13 @@
 import { StyleSheet, View, Text } from "react-native";
-import { useState, useEffect, useLayoutEffect } from "react";
+import {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  JSXElementConstructor,
+  ReactElement,
+  ReactNode,
+  ReactPortal,
+} from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 
@@ -11,41 +19,12 @@ import CreateHabit from "../drawers/create-habit";
 import EditHabit from "../drawers/edit-habit";
 import OnboardingOne from "../onboarding/onboarding-one";
 import { Header } from "@/components/Header";
+import { usePetInfo } from "@/contexts/UserContext";
 
 export default function Habits() {
   const [isOnboarded, setIsOnboarded] = useState<boolean | null>(null);
   const navigation = useNavigation();
-
-  const habits = [
-    {
-      name: "Exercise",
-      description: "Daily workout for 30 minutes",
-      currentStreak: 5,
-      completedTasks: 15,
-      totalTasks: 30,
-    },
-    {
-      name: "Drink Water",
-      description: "Drink 8 glasses of water daily",
-      currentStreak: 10,
-      completedTasks: 8,
-      totalTasks: 8,
-    },
-    {
-      name: "Read a Book",
-      description: "Read for 30 minutes every day",
-      currentStreak: 3,
-      completedTasks: 20,
-      totalTasks: 30,
-    },
-    {
-      name: "No Junk Food",
-      description: "Avoid junk food for better health",
-      currentStreak: 7,
-      completedTasks: 0,
-      totalTasks: 1,
-    },
-  ];
+  const { habits, setHabits } = usePetInfo();
 
   useEffect(() => {
     const checkOnboarding = async () => {
@@ -85,26 +64,41 @@ export default function Habits() {
           </ThemedView>
           <CreateHabit />
           <EditHabit />
-          {habits.map((habit) => {
-            return (
-              <View
-                style={[
-                  styles.habitContainer,
-                  habit.completedTasks == habit.totalTasks &&
-                    styles.completedHabitContainer,
-                ]}
-              >
-                <Text style={styles.habitName}>{habit.name}</Text>
-                <Text style={styles.habitDescription}>{habit.description}</Text>
-                <Text style={styles.habitStreak}>
-                  Current Streak: {habit.currentStreak} days
-                </Text>
-                <Text style={styles.habitProgress}>
-                  Progress: {habit.completedTasks}/{habit.totalTasks}
-                </Text>
-              </View>
-            );
-          })}
+          {habits.map(
+            (habit: {
+              completedTasks: number;
+
+              totalTasks: number;
+
+              name: string;
+
+              description: string;
+
+              currentStreak: number;
+            }) => {
+              return (
+                <View
+                  key={habit.name + habit.description}
+                  style={[
+                    styles.habitContainer,
+                    habit.completedTasks == habit.totalTasks &&
+                      styles.completedHabitContainer,
+                  ]}
+                >
+                  <Text style={styles.habitName}>{habit.name}</Text>
+                  <Text style={styles.habitDescription}>
+                    {habit.description}
+                  </Text>
+                  <Text style={styles.habitStreak}>
+                    Current Streak: {habit.currentStreak} days
+                  </Text>
+                  <Text style={styles.habitProgress}>
+                    Progress: {habit.completedTasks}/{habit.totalTasks}
+                  </Text>
+                </View>
+              );
+            }
+          )}
         </ParallaxScrollView>
       )}
     </>
