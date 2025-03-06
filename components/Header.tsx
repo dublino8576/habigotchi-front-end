@@ -9,6 +9,11 @@ import {
   Button,
 } from "react-native";
 
+import HealthCounter from "./HealthCounter";
+import HappinessCounter from "./HappinessCounter";
+import CoinsCounter from "./CoinsCounter";
+import { PetDisplay } from "./PetDisplay";
+
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
@@ -80,11 +85,6 @@ export const Header: React.FC = () => {
   const [selectedDetail, setSelectedDetail] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  // Example amounts for health, coins, and happiness
-  const health = 75;
-  const coins = 120;
-  const happiness = 90;
-
   // Function to handle clicking on an icon
   const handleIconPress = (detail: string) => {
     setSelectedDetail(detail);
@@ -93,7 +93,6 @@ export const Header: React.FC = () => {
 
   // Close modal handler
   const closeModal = () => setModalVisible(false);
-
   return (
     <>
       <View style={styles.container}>
@@ -110,23 +109,7 @@ export const Header: React.FC = () => {
               style={styles.icon}
             />
           </TouchableOpacity>
-          <Text style={styles.text}>Health: {health}</Text>
-        </View>
-
-        <View style={styles.iconContainer}>
-          <TouchableOpacity
-            onPress={() =>
-              handleIconPress(
-                "Coins are used as currency to unlock items and upgrades."
-              )
-            }
-          >
-            <Image
-              source={require("../assets/images/coin.png")}
-              style={styles.icon}
-            />
-          </TouchableOpacity>
-          <Text style={styles.text}>Coins: {coins}</Text>
+          <HealthCounter />
         </View>
 
         <View style={styles.iconContainer}>
@@ -142,7 +125,23 @@ export const Header: React.FC = () => {
               style={styles.icon}
             />
           </TouchableOpacity>
-          <Text style={styles.text}>Happiness: {happiness}</Text>
+          <HappinessCounter />
+        </View>
+
+        <View style={styles.iconContainer}>
+          <TouchableOpacity
+            onPress={() =>
+              handleIconPress(
+                "Coins are used as currency to unlock items and upgrades."
+              )
+            }
+          >
+            <Image
+              source={require("../assets/images/coin.png")}
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+          <CoinsCounter />
         </View>
       </View>
 
@@ -167,11 +166,7 @@ export const Header: React.FC = () => {
           </View>
         </View>
       </Modal>
-
-      <Image
-        style={styles.characterImage}
-        source={require("../assets/images/character.png")}
-      />
+      <PetDisplay />
     </>
   );
 };

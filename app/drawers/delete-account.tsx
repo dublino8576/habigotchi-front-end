@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import { Alert, Modal, Text, Pressable, View } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 
+import { usePetInfo } from "@/contexts/UserContext";
+
 export default function DeleteAccount() {
   const [modalVisible, setModalVisible] = useState(false);
-
   const router = useRouter();
+
+  const { setHealth, setHappiness, setCoins, setPetState, setSelectedPet } =
+    usePetInfo();
 
   const resetOnboarding = async () => {
     await AsyncStorage.setItem("isOnboarded", "false");
