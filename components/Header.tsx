@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 20,
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 45,
   },
   iconContainer: {
     alignItems: "center",
@@ -76,22 +76,18 @@ const styles = StyleSheet.create({
 });
 
 export const Header: React.FC = () => {
-  // State to track the selected icon and modal visibility
   const [selectedDetail, setSelectedDetail] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
 
-  // Example amounts for health, coins, and happiness
   const health = 75;
   const coins = 120;
   const happiness = 90;
 
-  // Function to handle clicking on an icon
   const handleIconPress = (detail: string) => {
     setSelectedDetail(detail);
-    setModalVisible(true); // Show modal when icon is clicked
+    setModalVisible(true);
   };
 
-  // Close modal handler
   const closeModal = () => setModalVisible(false);
 
   return (
