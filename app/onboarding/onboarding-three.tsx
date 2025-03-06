@@ -1,16 +1,24 @@
-import { StyleSheet, Pressable, Text, View } from "react-native";
+import { StyleSheet, Pressable, Text, View, Image } from "react-native";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useState } from "react";
+import { usePetInfo } from "@/contexts/UserContext";
 
 export default function OnboardingThree() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { setHealth, setHappiness, setCoins, setPetState, setSelectedPet } =
+    usePetInfo();
 
   const completeOnboarding = async () => {
     setLoading(true);
     await AsyncStorage.setItem("isOnboarded", "true");
     setLoading(false);
+    setHealth(80);
+    setHappiness(100);
+    setCoins(200);
+    setPetState("neutral");
+    setSelectedPet("petOne");
     router.push("/");
   };
 
@@ -18,6 +26,7 @@ export default function OnboardingThree() {
     <View style={styles.container}>
       <Text style={styles.title}>Habigotchi</Text>
       <Text>Select and name your pet</Text>
+      <Image source={require("../../assets/pets/petOne/happy.png")} />
       <Pressable
         style={styles.button}
         onPress={completeOnboarding}

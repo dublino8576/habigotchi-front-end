@@ -1,8 +1,11 @@
 import { StyleSheet, Pressable, Text, View } from "react-native";
+import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function OnboardingOne() {
   const router = useRouter();
+  const [isOnboarded, setIsOnboarded] = useState<boolean | null>(null);
 
   return (
     <View style={styles.container}>
