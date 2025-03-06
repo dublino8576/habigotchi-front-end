@@ -15,6 +15,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { CarouselView } from "@/components/CarouselView";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 export default function Shop() {
   const items = [
@@ -52,78 +53,8 @@ export default function Shop() {
       >
         SHOP
       </Text>
-      <CarouselView items={items}/>
-      {/* <ScrollView contentContainerStyle={{ paddingBottom: 0 }}>
-        {items.map((item) => {
-          return (
-            <View
-              key={item.id}
-              style={{
-                display: "flex",
-
-                alignItems: "center",
-                margin: 10,
-              }}
-            >
-              <Text style={{ color: "white", fontSize: 20, marginBottom: 10 }}>
-                {item.name}
-              </Text>
-              <Image
-                style={{ width: 80, height: 80 }}
-                source={item.img_url}
-              ></Image>
-              <View
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "flex-end",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <View style={{ alignItems: "center" }}>
-                  <Image
-                    source={require("../../assets/images/health-icon.png")}
-                    style={{
-                      margin: 10,
-                      width: 30,
-                      height: 30,
-                      alignSelf: "center",
-                      justifyContent: "center",
-                    }}
-                  ></Image>
-                  <Text style={{ color: "white" }}>{item.health}</Text>
-                </View>
-                <View style={{ alignItems: "center" }}>
-                  <Image
-                    source={require("../../assets/images/coin.png")}
-                    style={{
-                      margin: 10,
-                      width: 30,
-                      height: 30,
-                      alignSelf: "center",
-                      justifyContent: "center",
-                    }}
-                  ></Image>
-                  <Text style={{ color: "white" }}>{item.price}</Text>
-                </View>
-                <View style={{ alignItems: "center" }}>
-                  <Image
-                    source={require("../../assets/images/happiness.png")}
-                    style={{
-                      margin: 10,
-                      width: 30,
-                      height: 30,
-                      alignSelf: "center",
-                      justifyContent: "center",
-                    }}
-                  ></Image>
-                  <Text style={{ color: "white" }}>{item.happiness}</Text>
-                </View>
-              </View>
-            </View>
-          );
-        })}
-      </ScrollView> */}
+      <CarouselView items={items} />
     </SafeAreaView>
   );
 }
+const styles = StyleSheet.create({});
