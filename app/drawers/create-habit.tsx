@@ -10,12 +10,14 @@ import {
   Button,
 } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
+import { usePetInfo } from "@/contexts/UserContext";
 
 export default function CreateHabit() {
   const [modalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [totalTasks, setTotalTasks] = useState("");
+  const { setHabits } = usePetInfo();
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.centeredView}>
@@ -56,10 +58,21 @@ export default function CreateHabit() {
                 keyboardType="numeric"
               />
 
-              <Button title="Submit" />
               <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
+                style={[styles.button, styles.buttonOpen]}
+                onPress={() => {
+                  setHabits((prev: any) => [
+                    ...prev,
+                    {
+                      name: name,
+                      description: description,
+                      totalTasks: totalTasks,
+                      currentStreak: 0,
+                      completedTasks: 0,
+                    },
+                  ]);
+                  setModalVisible(!modalVisible);
+                }}
               >
                 <Text style={styles.textStyle}>Save</Text>
               </Pressable>
@@ -108,16 +121,33 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
+    borderRadius: 25,
+    paddingVertical: 15,
+    paddingHorizontal: 30,
+    elevation: 5,
+    alignItems: "center",
+    justifyContent: "center",
   },
   buttonOpen: {
+    marginBottom: 10,
     backgroundColor: "#0099FF",
+    shadowColor: "#0077CC",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
   },
   buttonClose: {
-    backgroundColor: "#0099FF",
-    marginBottom: 15,
+    backgroundColor: "#FF5733",
+    shadowColor: "#CC4C2D",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 10,
   },
   textStyle: {
     color: "white",
@@ -136,6 +166,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   input: {
+    width: "100%",
     height: 40,
     borderColor: "#ccc",
     borderWidth: 1,
