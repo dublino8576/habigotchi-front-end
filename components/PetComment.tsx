@@ -4,8 +4,6 @@ import { usePetInfo } from "@/contexts/UserContext";
 
 // we can use the usePetInfo / some other global user context to import petName
 
-const petName = "Lil Monkiii";
-
 const styles = StyleSheet.create({
   petName: {
     backgroundColor: "#000",
@@ -51,7 +49,7 @@ const styles = StyleSheet.create({
 });
 
 export function PetComment() {
-  const { petComment, setPetComment } = usePetInfo();
+  const { petComment, setPetComment, petName } = usePetInfo();
   return (
     <View>
       <Text style={styles.petName}>{petName}</Text>

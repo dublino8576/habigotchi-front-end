@@ -16,6 +16,7 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
   const [petState, setPetState] = useState("neutral");
   const [selectedPet, setSelectedPet] = useState("petOne");
   const [username, setUsername] = useState("");
+  const [petName, setPetName] = useState("");
   const [name, setName] = useState("");
   const [character, setCharacter] = useState(0);
   const [petComment, setPetComment] = useState("Hi, nice to meet you!");
@@ -75,6 +76,7 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
       const savedPetState = await AsyncStorage.getItem("petState");
       const savedSelectedPet = await AsyncStorage.getItem("selectedPet");
       const savedPetComment = await AsyncStorage.getItem("petComment");
+      const savedPetName = await AsyncStorage.getItem("petName");
 
       if (savedHealth) setHealth(Number(savedHealth));
       if (savedHappiness) setHappiness(Number(savedHappiness));
@@ -82,6 +84,7 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
       if (savedPetState) setPetState(savedPetState);
       if (savedSelectedPet) setSelectedPet(savedSelectedPet);
       if (savedPetComment) setPetComment(savedPetComment);
+      if (petName) setPetComment(petName);
     };
 
     loadData();
@@ -95,10 +98,11 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
       await AsyncStorage.setItem("petState", petState);
       await AsyncStorage.setItem("selectedPet", selectedPet);
       await AsyncStorage.setItem("petComment", petComment);
+      await AsyncStorage.setItem("petName", petName);
     };
 
     saveData();
-  }, [health, happiness, coins, petState, selectedPet, petComment]);
+  }, [health, happiness, coins, petState, selectedPet, petComment, petName]);
 
   useEffect(() => {
     const decrementState = () => {
@@ -165,6 +169,8 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
         setCharacter,
         friends,
         setFriends,
+        petName,
+        setPetName,
       }}
     >
       {children}

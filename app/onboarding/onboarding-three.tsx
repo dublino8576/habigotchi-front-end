@@ -31,8 +31,14 @@ export default function OnboardingThree() {
   const [loading, setLoading] = useState(false);
   const { name, setName, character, setCharacter } = usePetInfo();
   const router = useRouter();
-  const { setHealth, setHappiness, setCoins, setPetState, setSelectedPet } =
-    usePetInfo();
+  const {
+    setHealth,
+    setHappiness,
+    setCoins,
+    setPetState,
+    setSelectedPet,
+    setPetName,
+  } = usePetInfo();
 
   const completeOnboarding = async () => {
     setLoading(true);
@@ -41,8 +47,9 @@ export default function OnboardingThree() {
     setHealth(80);
     setHappiness(100);
     setCoins(200);
-    setPetState("neutral");
+    // setSelectedPet = the one in the carousel center when pressing done
     setSelectedPet("petOne");
+    setPetName(name.charAt(0).toUpperCase() + name.slice(1));
     router.push("/");
   };
 
@@ -77,6 +84,7 @@ export default function OnboardingThree() {
           }}
         />
       </SafeAreaView>
+      <Text>Enter a pet name</Text>
       <TextInput
         style={styles.input}
         value={name}
@@ -84,6 +92,7 @@ export default function OnboardingThree() {
         placeholder="Enter pet name"
         placeholderTextColor="#888"
       />
+
       <Pressable
         style={styles.button}
         onPress={() => {
@@ -97,6 +106,7 @@ export default function OnboardingThree() {
       >
         <Text style={styles.textStyle}>{loading ? "Loading..." : "Done"}</Text>
       </Pressable>
+
       <Pressable
         style={styles.button}
         onPress={() => router.push("/onboarding/onboarding-two")}
