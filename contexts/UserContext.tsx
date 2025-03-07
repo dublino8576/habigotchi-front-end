@@ -15,12 +15,9 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
   const [coins, setCoins] = useState(200);
   const [petState, setPetState] = useState("neutral");
   const [selectedPet, setSelectedPet] = useState("petOne");
-
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [character, setCharacter] = useState(0);
-  const [petComment, setPetComment] = useState("Hi, nice to meet you!");
-
   const [habits, setHabits] = useState([
     {
       name: "Exercise",
@@ -59,20 +56,12 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
       const savedCoins = await AsyncStorage.getItem("coins");
       const savedPetState = await AsyncStorage.getItem("petState");
       const savedSelectedPet = await AsyncStorage.getItem("selectedPet");
-      const savedUsername = await AsyncStorage.getItem("username");
-      const savedName = await AsyncStorage.getItem("name");
-      const savedCharacter = await AsyncStorage.getItem("character");
-      const savedPetComment = await AsyncStorage.getItem("petComment");
 
       if (savedHealth) setHealth(Number(savedHealth));
       if (savedHappiness) setHappiness(Number(savedHappiness));
       if (savedCoins) setCoins(Number(savedCoins));
       if (savedPetState) setPetState(savedPetState);
       if (savedSelectedPet) setSelectedPet(savedSelectedPet);
-      if (savedUsername) setUsername(savedUsername);
-      if (savedName) setName(savedName);
-      if (savedCharacter) setCharacter(Number(savedCharacter));
-      if (savedPetComment) setPetComment(savedPetComment);
     };
 
     loadData();
@@ -85,24 +74,10 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
       await AsyncStorage.setItem("coins", coins.toString());
       await AsyncStorage.setItem("petState", petState);
       await AsyncStorage.setItem("selectedPet", selectedPet);
-      await AsyncStorage.setItem("username", username);
-      await AsyncStorage.setItem("name", name);
-      await AsyncStorage.setItem("character", character.toString());
-      await AsyncStorage.setItem("petComment", petComment);
     };
 
     saveData();
-  }, [
-    health,
-    happiness,
-    coins,
-    petState,
-    selectedPet,
-    username,
-    name,
-    character,
-    petComment,
-  ]);
+  }, [health, happiness, coins, petState, selectedPet]);
 
   useEffect(() => {
     const decrementState = () => {
@@ -110,7 +85,7 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
       setHappiness((prevHappiness) => Math.max(prevHappiness - 1, 0));
     };
 
-    // this will be 3600000 when we want it to be an hour per decrement
+    // this will be 3600000 when we want it be an hour per decrement
     const intervalId = setInterval(decrementState, 1200);
 
     return () => {
@@ -158,14 +133,12 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
         setSelectedPet,
         habits,
         setHabits,
-        username,
-        setUsername,
         name,
+        username,
         setName,
+        setUsername,
         character,
         setCharacter,
-        petComment,
-        setPetComment,
       }}
     >
       {children}
