@@ -4,19 +4,29 @@ import { usePetInfo } from "@/contexts/UserContext";
 
 // we can use the usePetInfo / some other global user context to import petName
 
-const petName = "Lil Skibidi";
+const petName = "Lil Monkiii";
 
 const styles = StyleSheet.create({
   petName: {
-    backgroundColor: "#52ACEF",
+    backgroundColor: "#000",
     fontSize: 16,
     color: "#fff",
     textAlign: "center",
     padding: 8,
-    marginLeft: 48,
+    marginLeft: 40,
     marginRight: 48,
     marginTop: 24,
     alignSelf: "flex-start",
+    boxShadow: `
+    0px 4px 0 black,
+    4px 0px 0 black,
+    -4px 0px 0 black,
+    0px -4px 0 black,
+    -2px -2px 0 rgba(0,0,0,0),
+    2px -2px 0 rgba(0,0,0,0),
+    -2px 2px 0 rgba(0,0,0,0),
+    2px 2px 0 rgba(0,0,0,0)
+  `,
   },
   comment: {
     backgroundColor: "#fff",
@@ -24,8 +34,19 @@ const styles = StyleSheet.create({
     color: "#000",
     textAlign: "center",
     padding: 8,
+    marginTop: 4,
     marginLeft: 48,
     marginRight: 48,
+    boxShadow: `
+    0px 4px 0 black,
+    4px 0px 0 black,
+    -4px 0px 0 black,
+    0px -4px 0 black,
+    -2px -2px 0 rgba(0,0,0,0),
+    2px -2px 0 rgba(0,0,0,0),
+    -2px 2px 0 rgba(0,0,0,0),
+    2px 2px 0 rgba(0,0,0,0)
+  `,
   },
 });
 
