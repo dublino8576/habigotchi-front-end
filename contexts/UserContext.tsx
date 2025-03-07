@@ -15,6 +15,9 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
   const [coins, setCoins] = useState(200);
   const [petState, setPetState] = useState("neutral");
   const [selectedPet, setSelectedPet] = useState("petOne");
+  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
+  const [character, setCharacter] = useState(0);
   const [habits, setHabits] = useState([
     {
       name: "Exercise",
@@ -130,6 +133,12 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
         setSelectedPet,
         habits,
         setHabits,
+        name,
+        username,
+        setName,
+        setUsername,
+        character,
+        setCharacter,
       }}
     >
       {children}
