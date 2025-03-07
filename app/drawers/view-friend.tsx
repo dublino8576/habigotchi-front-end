@@ -22,13 +22,13 @@ export default function ViewFriend() {
             <View style={styles.modalView}>
               <Text style={styles.modalText}>View friend</Text>
               <Pressable
-                style={[styles.button, styles.buttonClose]}
+                style={[styles.button, styles.buttonPrimary]}
                 onPress={() => setModalVisible(!modalVisible)}
               >
                 <Text style={styles.textStyle}>Done</Text>
               </Pressable>
               <Pressable
-                style={[styles.button, styles.buttonClose]}
+                style={[styles.button, styles.buttonDelete]}
                 onPress={() => setModalVisible(!modalVisible)}
               >
                 <Text style={styles.textStyle}>Delete friend</Text>
@@ -38,7 +38,7 @@ export default function ViewFriend() {
         </Modal>
 
         <Pressable
-          style={[styles.button, styles.buttonOpen]}
+          style={[styles.button, styles.buttonPrimary]}
           onPress={() => setModalVisible(true)}
         >
           <Text style={styles.textStyle}>View friend</Text>
@@ -76,10 +76,10 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
   },
-  buttonOpen: {
-    backgroundColor: "#0099FF",
+  buttonDelete: {
+    backgroundColor: "red",
   },
-  buttonClose: {
+  buttonPrimary: {
     backgroundColor: "#0099FF",
     marginBottom: 15,
   },
