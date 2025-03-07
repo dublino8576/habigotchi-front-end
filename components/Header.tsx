@@ -18,45 +18,29 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: 20,
     alignItems: "center",
-    marginTop: 20,
+    paddingHorizontal: 28,
+    marginTop: 60,
   },
   iconContainer: {
+    width: 80,
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    borderRadius: 8,
+    padding: 8,
+    gap: 8,
   },
   icon: {
-    width: 60,
-    height: 60,
-    alignSelf: "center",
-    justifyContent: "center",
-    borderRadius: 30,
-    backgroundColor: "rgba(255, 255, 255, 0.3)",
-    padding: 5,
-    margin: 10,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 6,
+    resizeMode: "contain",
+    width: 24,
+    height: 24,
   },
   text: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#fff",
     marginTop: 5,
-  },
-  characterImage: {
-    width: 200,
-    height: 200,
-    alignSelf: "center",
-    marginTop: 20,
-    borderRadius: 100,
-    borderWidth: 6,
-    borderColor: "#FFD700",
-    shadowColor: "#FFD700",
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.5,
-    shadowRadius: 15,
   },
   detailText: {
     fontSize: 16,
@@ -96,53 +80,50 @@ export const Header: React.FC = () => {
   return (
     <>
       <View style={styles.container}>
-        <View style={styles.iconContainer}>
-          <TouchableOpacity
-            onPress={() =>
-              handleIconPress(
-                "Health is your well-being level. It affects your overall performance."
-              )
-            }
-          >
-            <Image
-              source={require("../assets/images/health-icon.png")}
-              style={styles.icon}
-            />
-          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            handleIconPress(
+              "Health is your well-being level. It affects your overall performance."
+            )
+          }
+          style={styles.iconContainer}
+        >
+          <Image
+            source={require("../assets/images/health-icon.png")}
+            style={styles.icon}
+          />
           <HealthCounter />
-        </View>
+        </TouchableOpacity>
 
-        <View style={styles.iconContainer}>
-          <TouchableOpacity
-            onPress={() =>
-              handleIconPress(
-                "Happiness represents your character's emotional state."
-              )
-            }
-          >
-            <Image
-              source={require("../assets/images/happiness.png")}
-              style={styles.icon}
-            />
-          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            handleIconPress(
+              "Happiness represents your character's emotional state."
+            )
+          }
+          style={styles.iconContainer}
+        >
+          <Image
+            source={require("../assets/images/happiness.png")}
+            style={styles.icon}
+          />
           <HappinessCounter />
-        </View>
+        </TouchableOpacity>
 
-        <View style={styles.iconContainer}>
-          <TouchableOpacity
-            onPress={() =>
-              handleIconPress(
-                "Coins are used as currency to unlock items and upgrades."
-              )
-            }
-          >
-            <Image
-              source={require("../assets/images/coin.png")}
-              style={styles.icon}
-            />
-          </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() =>
+            handleIconPress(
+              "Coins are used as currency to unlock items and upgrades."
+            )
+          }
+          style={styles.iconContainer}
+        >
+          <Image
+            source={require("../assets/images/coin.png")}
+            style={styles.icon}
+          />
           <CoinsCounter />
-        </View>
+        </TouchableOpacity>
       </View>
 
       <Modal

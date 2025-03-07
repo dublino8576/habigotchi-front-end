@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     padding: 8,
     marginLeft: 40,
     marginRight: 48,
-    marginTop: 24,
+    marginTop: 8,
     alignSelf: "flex-start",
     boxShadow: `
     0px 4px 0 black,
@@ -35,8 +35,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     padding: 8,
     marginTop: 4,
-    marginLeft: 48,
-    marginRight: 48,
+    marginLeft: 32,
+    marginRight: 32,
     boxShadow: `
     0px 4px 0 black,
     4px 0px 0 black,

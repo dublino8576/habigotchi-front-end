@@ -19,7 +19,7 @@ import { Header } from "@/components/Header";
 export default function Pet() {
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}
+      headerBackgroundColor={{ light: "#D0D0D0", dark: "#90D2E4" }}
       headerImage={<Header />}
     >
       <ThemedView style={styles.titleContainer}>

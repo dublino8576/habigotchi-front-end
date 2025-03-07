@@ -34,8 +34,12 @@ export default function DeleteAccount() {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Delete account</Text>
+              <Text>
+                This will delete your pet and account data, this cannot be
+                undone. Are you sure?
+              </Text>
               <Pressable
-                style={[styles.button, styles.buttonClose]}
+                style={[styles.button, styles.buttonDelete]}
                 onPress={() => {
                   setModalVisible(!modalVisible);
                   resetOnboarding();
@@ -54,7 +58,7 @@ export default function DeleteAccount() {
         </Modal>
 
         <Pressable
-          style={[styles.button, styles.buttonOpen]}
+          style={[styles.button, styles.buttonDelete]}
           onPress={() => setModalVisible(true)}
         >
           <Text style={styles.textStyle}>Delete account</Text>
@@ -92,8 +96,10 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2,
   },
-  buttonOpen: {
+  buttonDelete: {
     backgroundColor: "red",
+    marginTop: 15,
+    marginBottom: 15,
   },
   buttonClose: {
     backgroundColor: "#0099FF",

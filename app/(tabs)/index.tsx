@@ -56,7 +56,7 @@ export default function Habits() {
         <OnboardingOne />
       ) : (
         <ParallaxScrollView
-          headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}
+          headerBackgroundColor={{ light: "#D0D0D0", dark: "#90D2E4" }}
           headerImage={<Header />}
         >
           <ThemedView style={styles.titleContainer}>
