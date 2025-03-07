@@ -94,7 +94,7 @@ export const CarouselView: React.FC<CarouselProps> = ({ items }) => {
                   style={styles.buyButtonContainer}
                   onPress={() => handlePress(item)}
                 >
-                  <Text style={styles.buyButton}>Buy</Text>
+                  <Text style={styles.buyButton}>Info</Text>
                 </TouchableOpacity>
               </Animated.View>
             </View>
