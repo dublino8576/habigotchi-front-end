@@ -1,4 +1,4 @@
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Header } from "@/components/Header";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { CarouselView } from "@/components/CarouselView";
@@ -37,12 +37,9 @@ export default function Shop() {
     <SafeAreaView style={{ flex: 1 }}>
       {" "}
       <Header></Header>
-      <Text
-        style={{ margin: 30, fontSize: 55, fontWeight: 600, color: "white" }}
-      >
-        SHOP
-      </Text>
-      <CarouselView items={items} />
+      <View style={{ flex: 1, justifyContent: "center", marginTop: "40%" }}>
+        <CarouselView items={items} />
+      </View>
     </SafeAreaView>
   );
 }
