@@ -49,6 +49,23 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
       totalTasks: 1,
     },
   ]);
+  const [friends, setFriends] = useState([
+    {
+      userName: "Pando",
+      petName: "Big Skibidi Boss",
+      image: require("../assets/pets/petOne/happy.png"),
+    },
+    {
+      userName: "Lil cat",
+      petName: "Kitkatking",
+      image: require("../assets/pets/petOne/veryHappy.png"),
+    },
+    {
+      userName: "Gorilla353",
+      petName: "Monkiii",
+      image: require("../assets/pets/petOne/sad.png"),
+    },
+  ]);
 
   useEffect(() => {
     const loadData = async () => {
@@ -146,6 +163,8 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
         setUsername,
         character,
         setCharacter,
+        friends,
+        setFriends,
       }}
     >
       {children}
