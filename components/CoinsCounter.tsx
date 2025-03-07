@@ -1,17 +1,13 @@
-import { Text, StyleSheet } from "react-native";
 import { usePetInfo } from "@/contexts/UserContext";
-
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 14,
-    color: "#fff",
-    marginTop: 5,
-  },
-});
+import { ThemedText } from "@/components/ThemedText";
 
 const CoinsCounter = () => {
   const { coins } = usePetInfo();
-  return <Text style={styles.text}>{coins}</Text>;
+  return (
+    <ThemedText type="default" lightColor="#fff" darkColor="#000">
+      {coins}
+    </ThemedText>
+  );
 };
 
 export default CoinsCounter;

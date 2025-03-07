@@ -1,18 +1,13 @@
-import React from "react";
-import { Text, StyleSheet } from "react-native";
 import { usePetInfo } from "@/contexts/UserContext";
-
-const styles = StyleSheet.create({
-  text: {
-    fontSize: 14,
-    color: "#fff",
-    marginTop: 5,
-  },
-});
+import { ThemedText } from "@/components/ThemedText";
 
 const HealthCounter = () => {
   const { health } = usePetInfo();
-  return <Text style={styles.text}>{health}%</Text>;
+  return (
+    <ThemedText type="default" lightColor="#fff" darkColor="#000">
+      {health}%
+    </ThemedText>
+  );
 };
 
 export default HealthCounter;

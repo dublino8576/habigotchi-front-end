@@ -6,10 +6,10 @@ import { useEffect } from "react";
 
 const styles = StyleSheet.create({
   characterImage: {
-    width: 140,
-    height: 140,
+    width: 128,
+    height: 128,
     alignSelf: "center",
-    marginTop: 20,
+    marginTop: 58,
     // shadowColor: "#FFD700",
     // shadowOffset: { width: 0, height: 10 },
     // shadowOpacity: 0.5,
