@@ -15,6 +15,7 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
   const [coins, setCoins] = useState(200);
   const [petState, setPetState] = useState("neutral");
   const [selectedPet, setSelectedPet] = useState("petOne");
+  const [petComment, setPetComment] = useState("Hi, nice to meet you!");
   const [habits, setHabits] = useState([
     {
       name: "Exercise",
@@ -53,12 +54,14 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
       const savedCoins = await AsyncStorage.getItem("coins");
       const savedPetState = await AsyncStorage.getItem("petState");
       const savedSelectedPet = await AsyncStorage.getItem("selectedPet");
+      const savedPetComment = await AsyncStorage.getItem("petComment");
 
       if (savedHealth) setHealth(Number(savedHealth));
       if (savedHappiness) setHappiness(Number(savedHappiness));
       if (savedCoins) setCoins(Number(savedCoins));
       if (savedPetState) setPetState(savedPetState);
       if (savedSelectedPet) setSelectedPet(savedSelectedPet);
+      if (savedPetComment) setPetComment(savedPetComment);
     };
 
     loadData();
@@ -71,10 +74,11 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
       await AsyncStorage.setItem("coins", coins.toString());
       await AsyncStorage.setItem("petState", petState);
       await AsyncStorage.setItem("selectedPet", selectedPet);
+      await AsyncStorage.setItem("petComment", petComment);
     };
 
     saveData();
-  }, [health, happiness, coins, petState, selectedPet]);
+  }, [health, happiness, coins, petState, selectedPet, petComment]);
 
   useEffect(() => {
     const decrementState = () => {
@@ -92,6 +96,7 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const totalHealthHappiness = health + happiness;
+    // can delete this let I think
     let newPetState = "neutral";
 
     if (happiness === 0) {
@@ -130,6 +135,8 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
         setSelectedPet,
         habits,
         setHabits,
+        petComment,
+        setPetComment,
       }}
     >
       {children}
