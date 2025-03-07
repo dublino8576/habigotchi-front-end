@@ -2,6 +2,7 @@ import { StyleSheet, Image } from "react-native";
 import { usePetInfo } from "@/contexts/UserContext";
 import { View } from "react-native";
 import { PetComment } from "./PetComment";
+import { useEffect } from "react";
 
 const styles = StyleSheet.create({
   characterImage: {
@@ -9,7 +10,6 @@ const styles = StyleSheet.create({
     height: 140,
     alignSelf: "center",
     marginTop: 20,
-
     // shadowColor: "#FFD700",
     // shadowOffset: { width: 0, height: 10 },
     // shadowOpacity: 0.5,
@@ -18,13 +18,35 @@ const styles = StyleSheet.create({
 });
 
 export function PetDisplay() {
-  const { health, happiness, petState, selectedPet } = usePetInfo();
+  const {
+    health,
+    happiness,
+    petState,
+    selectedPet,
+    petComment,
+    setPetComment,
+  } = usePetInfo();
 
   // not needed v
   // const totalHealthHappiness = health + happiness;
   // console.log(totalHealthHappiness);
   // console.log(petState);
   // console.log(selectedPet);
+
+  useEffect(() => {
+    //typescript safety on line 38
+    const comments: { [key: string]: string } = {
+      veryHappy: "I'm very happy we're friends!",
+      happy: "I am haapppy!",
+      neutral: "I feel pretty gooood.",
+      sad: "Sad vibes..",
+      verySad: "I am very sad tbh...",
+      hibernate: "ZzZZZZzzzzZzZZz",
+      default: "*tumbleweed*",
+    };
+
+    setPetComment(comments[petState] || comments.default);
+  }, [petState, setPetComment]);
 
   const image = (() => {
     switch (selectedPet) {

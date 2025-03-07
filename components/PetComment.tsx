@@ -1,10 +1,9 @@
 import React from "react";
 import { Text, StyleSheet, View } from "react-native";
-// import { usePetInfo } from "@/contexts/petContext";
+import { usePetInfo } from "@/contexts/UserContext";
 
 // we can use the usePetInfo / some other global user context to import petName
 
-const comment = "Hello, don't forget to track your habits!";
 const petName = "Lil Skibidi";
 
 const styles = StyleSheet.create({
@@ -31,10 +30,11 @@ const styles = StyleSheet.create({
 });
 
 export function PetComment() {
+  const { petComment, setPetComment } = usePetInfo();
   return (
     <View>
       <Text style={styles.petName}>{petName}</Text>
-      <Text style={styles.comment}>{comment}</Text>
+      <Text style={styles.comment}>{petComment}</Text>
     </View>
   );
 }
