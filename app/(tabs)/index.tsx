@@ -17,7 +17,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { IconSymbol } from "@/components/ui/IconSymbol";
 import CreateHabit from "../drawers/create-habit";
 import EditHabit from "../drawers/edit-habit";
-import OnboardingOne from "../onboarding/onboarding-one";
+import OnboardingOne from "../onboarding/OnboardingOne";
 import { Header } from "@/components/Header";
 import { usePetInfo } from "@/contexts/UserContext";
 
