@@ -20,7 +20,9 @@ interface OnboardingOneProps {
   isOnboarded: boolean;
   setIsOnboarded: (value: boolean) => void;
 }
-
+interface NewUserInput {
+  username: string;
+}
 const OnboardingOne: React.FC<OnboardingOneProps> = ({
   isOnboarded,
   setIsOnboarded,
@@ -122,19 +124,23 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
   const handleCompleteOnboarding = async () => {
     setLoading(true);
     // Mark user as onboarded and logged in
-    // const createUser = { username: username };
-    // const createPet = { pet_name: name, pet_status: "TEST PET STATUS" };
+    const createUser = { user_name: username };
+    const createPet = { pet_name: name, pet_status: "TEST PET STATUS" };
+    console.log(createUser);
+    const createdUser = await addUser(createUser);
 
-    // const createdUser = await addUser(createUser);
-    // const createdPet = await addPet(createPet);
-    // const petID = { pet_id: createdPet.user_id };
-    // const updatedUser = await updateUser(petID);
+    const createdPet = await addPet(createPet);
+    console.log("CREATED PET", createdPet);
+    const petID = { pet_id: createdPet.addedPet.pet_id };
+    console.log("PET_ID", petID);
+    const user_id = createdUser.addedUser[0].user_id;
+    console.log(user_id, "User id");
+    /* const updatedUser = await updateUser(petID, user_id).catch((err) => {
+      console.log(err, "error updateUser");
+    }); */
 
-    // console.log("CREATED USER", createdUser);
-    // console.log("CREATED PET", createdPet);
-    // console.log("PET_ID", petID);
-    // console.log("UPDATED USER", updatedUser);
-
+    /*     console.log("UPDATED USER", updatedUser);
+     */
     await AsyncStorage.setItem("isOnboarded", "true");
     setLoading(false);
     setHealth(80);

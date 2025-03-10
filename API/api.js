@@ -23,7 +23,9 @@ export const getPets = (reqBody) => {
 };
 
 export const addUser = (reqBody) => {
+  console.log(reqBody, "request body");
   return habigotchiServer.post("/users", reqBody).then(({ data }) => {
+    console.log(data, "data");
     return data;
   });
 };
@@ -35,6 +37,7 @@ export const addPet = (reqBody) => {
 };
 
 export const updateUser = (reqBody, user_id) => {
+  console.log(reqBody, "inside axios");
   return habigotchiServer
     .patch(`/users/${user_id}`, reqBody)
     .then(({ data }) => {
