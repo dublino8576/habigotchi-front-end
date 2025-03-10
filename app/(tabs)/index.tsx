@@ -7,9 +7,10 @@ import {
   ReactElement,
   ReactNode,
   ReactPortal,
+  useCallback,
 } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
@@ -22,17 +23,21 @@ import { Header } from "@/components/Header";
 import { usePetInfo } from "@/contexts/UserContext";
 
 export default function Habits() {
-  const [isOnboarded, setIsOnboarded] = useState<boolean | null>(null);
+  const [isOnboarded, setIsOnboarded] = useState<boolean>(true);
   const navigation = useNavigation();
   const { habits, setHabits } = usePetInfo();
 
-  useEffect(() => {
-    const checkOnboarding = async () => {
-      const onboarded = await AsyncStorage.getItem("isOnboarded");
-      setIsOnboarded(onboarded === "true");
-    };
-    checkOnboarding();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const checkOnboarding = async () => {
+        const onboarded = await AsyncStorage.getItem("isOnboarded");
+        console.log("Fetched isOnboarded value from AsyncStorage:", onboarded);
+        setIsOnboarded(onboarded === "true"); // Ensures re-check on screen focus
+      };
+
+      checkOnboarding();
+    }, [])
+  );
 
   useLayoutEffect(() => {
     if (isOnboarded === false) {
@@ -53,7 +58,10 @@ export default function Habits() {
   return (
     <>
       {!isOnboarded ? (
-        <OnboardingOne />
+        <OnboardingOne
+          isOnboarded={isOnboarded}
+          setIsOnboarded={setIsOnboarded}
+        />
       ) : (
         <ParallaxScrollView
           headerBackgroundColor={{ light: "#D0D0D0", dark: "#353636" }}

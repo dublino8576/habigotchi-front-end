@@ -1,15 +1,12 @@
 import {
   StyleSheet,
-  Pressable,
   Text,
   View,
   TextInput,
-  Alert,
-  KeyboardAvoidingView,
-  Platform,
   Keyboard,
   NativeSyntheticEvent,
   BackHandler,
+  Dimensions,
 } from "react-native";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
@@ -17,16 +14,25 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Onboarding from "react-native-onboarding-swiper";
 import LottieView from "lottie-react-native";
 import { usePetInfo } from "@/contexts/UserContext";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-export default function OnboardingOne() {
+interface OnboardingOneProps {
+  isOnboarded: boolean;
+  setIsOnboarded: (value: boolean) => void;
+}
+
+const OnboardingOne: React.FC<OnboardingOneProps> = ({
+  isOnboarded,
+  setIsOnboarded,
+}) => {
   const router = useRouter();
-  const [isOnboarded, setIsOnboarded] = useState<boolean | null>(null);
+
   const { username, setUsername } = usePetInfo();
   const [isUsernameValid, setIsUsernameValid] = useState<boolean>(false);
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState<boolean>(false);
+  const animationSize = isKeyboardVisible ? 150 : 300;
+  const { width, height } = Dimensions.get("window");
 
   const handleUsername = (text: string): void => {
     setUsername(text);
@@ -43,6 +49,10 @@ export default function OnboardingOne() {
   const handleBlur = () => {
     setIsFocused(false);
   };
+  //REMEMBER: whilst Lottie animations are on, the keyboard cannot open if input field is not positioned on top of keyboard as image property is always re-rendering and it is too big. I left the animation on but smaller when the keyboard is active so that the text input has space over the keyboard.
+
+  //USE keyboard module for animations with keyboard transitions below
+
   useEffect(() => {
     // Listen for keyboard show event
     const keyboardDidShowListener = Keyboard.addListener(
@@ -81,18 +91,26 @@ export default function OnboardingOne() {
     };
   }, [isFocused]);
 
+  const handleCompleteOnboarding = async () => {
+    // Mark user as onboarded and logged in
+    setIsOnboarded(true);
+    router.push("/");
+    console.log("success");
+  };
+
   return (
     <View style={styles.container}>
       <Onboarding
         containerStyles={{ paddingHorizontal: 15 }}
         showNext={pageIndex === 0 || isUsernameValid}
-        showDone={false}
+        showDone={isUsernameValid}
         showSkip={false}
         nextLabel={"Next"}
         pageIndexCallback={(index: number) => {
           setPageIndex(index);
           Keyboard.dismiss();
         }}
+        onDone={handleCompleteOnboarding}
         pages={[
           {
             backgroundColor: "#fff",
@@ -113,20 +131,19 @@ export default function OnboardingOne() {
             backgroundColor: "#fff",
             image: (
               <>
-                {!isKeyboardVisible && (
-                  <View>
-                    <LottieView
-                      source={require("../../assets/animations/pet-and-owner.json")}
-                      autoPlay
-                      loop
-                      style={{
-                        width: 300,
-                        height: 300,
-                      }}
-                    />
-                  </View>
-                )}
-
+                (
+                <View>
+                  <LottieView
+                    source={require("../../assets/animations/pet-and-owner.json")}
+                    autoPlay
+                    loop
+                    style={{
+                      width: animationSize,
+                      height: animationSize,
+                    }}
+                  />
+                </View>
+                )
                 <View>
                   <TextInput
                     style={[
@@ -160,17 +177,54 @@ export default function OnboardingOne() {
             backgroundColor: "#fff",
             image: (
               <View>
-                <Text>Hello world</Text>
+                <LottieView
+                  source={require("../../assets/animations/base-for-pet.json")}
+                  autoPlay
+                  loop
+                  style={{
+                    width: animationSize,
+                    height: animationSize,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    top: "35%",
+                  }}
+                ></LottieView>
+
+                <LottieView
+                  source={require("../../assets/animations/mushroom-gif.json")}
+                  autoPlay
+                  loop
+                  style={{
+                    width: 100,
+                    height: 100,
+                    position: "absolute",
+                    top: "60%",
+                    left: width / 4,
+                  }}
+                />
               </View>
             ),
-            title: "Onboarding",
+            title: (
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "flex-end", // Push title down
+                  alignItems: "center",
+                  paddingBottom: 50, // Adjust space from bottom
+                }}
+              >
+                <Text style={{ fontSize: 24, fontWeight: "bold" }}>
+                  Choose your pet!
+                </Text>
+              </View>
+            ),
             subtitle: "Done with React Native Onboarding Swiper",
           },
         ]}
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -206,3 +260,5 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
 });
+
+export default OnboardingOne;
