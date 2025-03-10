@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     marginRight: 48,
     marginTop: 8,
     alignSelf: "flex-start",
-    boxShadow: `
+    /*  boxShadow: `
     0px 4px 0 black,
     4px 0px 0 black,
     -4px 0px 0 black,
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     2px -2px 0 rgba(0,0,0,0),
     -2px 2px 0 rgba(0,0,0,0),
     2px 2px 0 rgba(0,0,0,0)
-  `,
+  `, */
   },
   comment: {
     backgroundColor: "#fff",
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     marginTop: 4,
     marginLeft: 32,
     marginRight: 32,
-    boxShadow: `
+    /*  boxShadow: `
     0px 4px 0 black,
     4px 0px 0 black,
     -4px 0px 0 black,
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     2px -2px 0 rgba(0,0,0,0),
     -2px 2px 0 rgba(0,0,0,0),
     2px 2px 0 rgba(0,0,0,0)
-  `,
+  `, */
   },
 });
 

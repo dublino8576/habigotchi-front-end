@@ -93,10 +93,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     width: "90%",
     alignItems: "center",
-    shadowColor: "#000",
+    /* shadowColor: "#000",
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
-    shadowRadius: 5,
+    shadowRadius: 5, */
   },
   statTitle: {
     color: "#FFD700",
