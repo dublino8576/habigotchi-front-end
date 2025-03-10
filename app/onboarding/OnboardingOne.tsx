@@ -32,7 +32,19 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState<boolean>(false);
   const animationSize = isKeyboardVisible ? 150 : 300;
+  const petSize = isKeyboardVisible ? 50 : 150;
   const { width, height } = Dimensions.get("window");
+  const [loading, setLoading] = useState(false);
+  const { name, setName, character, setCharacter } = usePetInfo();
+  const {
+    setHealth,
+    setHappiness,
+    setCoins,
+    setPetState,
+    setSelectedPet,
+    setPetName,
+  } = usePetInfo();
+  const [isPetNameValid, setIsPetNameValid] = useState(false);
 
   const handleUsername = (text: string): void => {
     setUsername(text);
@@ -90,12 +102,35 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
       backHandler.remove();
     };
   }, [isFocused]);
+  const changeCharacter = () => {
+    if (character == 2) {
+      setCharacter(0);
+    } else {
+      setCharacter(character + 1);
+    }
+  };
+  const handlePetName = (text: string): void => {
+    setName(text);
+    if (name.length > 4) {
+      setIsPetNameValid(true);
+    } else {
+      setIsPetNameValid(false);
+    }
+  };
 
   const handleCompleteOnboarding = async () => {
+    setLoading(true);
     // Mark user as onboarded and logged in
+    await AsyncStorage.setItem("isOnboarded", "true");
+    setLoading(false);
+    setHealth(80);
+    setHappiness(100);
+    setCoins(200);
+    // setSelectedPet = the one in the carousel center when pressing done
+    setSelectedPet("petOne");
+    setPetName(name.charAt(0).toUpperCase() + name.slice(1));
     setIsOnboarded(true);
     router.push("/");
-    console.log("success");
   };
 
   return (
@@ -103,7 +138,7 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
       <Onboarding
         containerStyles={{ paddingHorizontal: 15 }}
         showNext={pageIndex === 0 || isUsernameValid}
-        showDone={isUsernameValid}
+        showDone={isPetNameValid}
         showSkip={false}
         nextLabel={"Next"}
         pageIndexCallback={(index: number) => {
@@ -176,33 +211,68 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
           {
             backgroundColor: "#fff",
             image: (
-              <View>
-                <LottieView
-                  source={require("../../assets/animations/base-for-pet.json")}
-                  autoPlay
-                  loop
-                  style={{
-                    width: animationSize,
-                    height: animationSize,
-                    justifyContent: "center",
-                    alignItems: "center",
-                    top: "35%",
-                  }}
-                ></LottieView>
+              <>
+                <View>
+                  <View>
+                    <LottieView
+                      source={require("../../assets/animations/base-for-pet.json")}
+                      autoPlay
+                      loop
+                      style={{
+                        width: animationSize,
+                        height: animationSize,
+                        justifyContent: "center",
+                        alignSelf: "center",
+                        top: "35%",
+                      }}
+                    ></LottieView>
 
-                <LottieView
-                  source={require("../../assets/animations/mushroom-gif.json")}
-                  autoPlay
-                  loop
-                  style={{
-                    width: 100,
-                    height: 100,
-                    position: "absolute",
-                    top: "60%",
-                    left: width / 4,
-                  }}
-                />
-              </View>
+                    <LottieView
+                      source={require("../../assets/animations/mushroom-gif.json")}
+                      autoPlay
+                      loop
+                      style={{
+                        width: petSize,
+                        height: petSize,
+                        position: "absolute",
+                        top: "40%",
+                        alignSelf: "center",
+                      }}
+                    />
+                  </View>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: "center",
+                      alignItems: "center",
+                      position: "relative",
+                    }}
+                  >
+                    {isFocused && !isPetNameValid && (
+                      <Text style={{ color: "red" }}>
+                        Pet name must have at least 5 characters!
+                      </Text>
+                    )}
+                    <TextInput
+                      style={[
+                        styles.input,
+                        {
+                          borderColor:
+                            isFocused && !isPetNameValid ? "red" : "#ccc",
+                        },
+                      ]}
+                      placeholder="Type the name of your pet"
+                      multiline={false}
+                      numberOfLines={1}
+                      value={name}
+                      onChangeText={handlePetName}
+                      placeholderTextColor="#999"
+                      onFocus={handleFocus}
+                      onBlur={handleBlur}
+                    />
+                  </View>
+                </View>
+              </>
             ),
             title: (
               <View
