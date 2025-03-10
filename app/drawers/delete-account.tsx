@@ -16,7 +16,8 @@ export default function DeleteAccount() {
 
   const resetOnboarding = async () => {
     await AsyncStorage.setItem("isOnboarded", "false");
-    router.push("/onboarding/onboarding-one");
+    console.log("heelo");
+    router.replace("/");
   };
 
   return (
