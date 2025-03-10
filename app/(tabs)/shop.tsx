@@ -42,9 +42,10 @@ export default function Shop() {
       headerImage={<Header />}
     >
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Shop</ThemedText>
+        <ThemedText type="title">
+          <Text>Shop</Text>
+        </ThemedText>
         <SafeAreaView style={{ flex: 1 }}>
-          {" "}
           <View style={{ flex: 1, justifyContent: "center", marginTop: "40%" }}>
             <CarouselView items={items} />
           </View>

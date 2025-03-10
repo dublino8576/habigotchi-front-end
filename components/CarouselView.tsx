@@ -28,7 +28,6 @@ type Item = {
 type Spacer = {
   key: string;
 };
-
 type CarouselItem = Item | Spacer;
 
 type CarouselProps = {

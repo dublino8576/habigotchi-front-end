@@ -138,7 +138,7 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
       <Onboarding
         containerStyles={{ paddingHorizontal: 15 }}
         showNext={pageIndex === 0 || isUsernameValid}
-        showDone={isPetNameValid}
+        showDone={isPetNameValid && isUsernameValid}
         showSkip={false}
         nextLabel={"Next"}
         pageIndexCallback={(index: number) => {
@@ -185,7 +185,7 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
                       styles.input,
                       {
                         borderColor:
-                          isFocused && !isUsernameValid ? "red" : "#ccc",
+                          !!isFocused && !isUsernameValid ? "red" : "#ccc",
                       },
                     ]}
                     placeholder="Type your username"
@@ -197,10 +197,12 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                   />
-                  {isFocused && !isUsernameValid && (
-                    <Text style={{ color: "red" }}>
-                      Username must have at least 5 characters!
-                    </Text>
+                  {!!isFocused && !isUsernameValid && (
+                    <View>
+                      <Text style={{ color: "red" }}>
+                        Username must have at least 5 characters!
+                      </Text>
+                    </View>
                   )}
                 </View>
               </>
@@ -248,7 +250,7 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
                       position: "relative",
                     }}
                   >
-                    {isFocused && !isPetNameValid && (
+                    {!!isFocused && !isPetNameValid && (
                       <Text style={{ color: "red" }}>
                         Pet name must have at least 5 characters!
                       </Text>
@@ -258,7 +260,7 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
                         styles.input,
                         {
                           borderColor:
-                            isFocused && !isPetNameValid ? "red" : "#ccc",
+                            !!isFocused && !isPetNameValid ? "red" : "#ccc",
                         },
                       ]}
                       placeholder="Type the name of your pet"
@@ -278,9 +280,9 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
               <View
                 style={{
                   flex: 1,
-                  justifyContent: "flex-end", // Push title down
+                  justifyContent: "flex-end",
                   alignItems: "center",
-                  paddingBottom: 50, // Adjust space from bottom
+                  paddingBottom: 50,
                 }}
               >
                 <Text style={{ fontSize: 24, fontWeight: "bold" }}>
