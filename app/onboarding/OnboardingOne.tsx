@@ -14,6 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Onboarding from "react-native-onboarding-swiper";
 import LottieView from "lottie-react-native";
 import { usePetInfo } from "@/contexts/UserContext";
+import { addUser, addPet, updateUser } from "@/API/api";
 
 interface OnboardingOneProps {
   isOnboarded: boolean;
@@ -121,6 +122,19 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
   const handleCompleteOnboarding = async () => {
     setLoading(true);
     // Mark user as onboarded and logged in
+    // const createUser = { username: username };
+    // const createPet = { pet_name: name, pet_status: "TEST PET STATUS" };
+
+    // const createdUser = await addUser(createUser);
+    // const createdPet = await addPet(createPet);
+    // const petID = { pet_id: createdPet.user_id };
+    // const updatedUser = await updateUser(petID);
+
+    // console.log("CREATED USER", createdUser);
+    // console.log("CREATED PET", createdPet);
+    // console.log("PET_ID", petID);
+    // console.log("UPDATED USER", updatedUser);
+
     await AsyncStorage.setItem("isOnboarded", "true");
     setLoading(false);
     setHealth(80);
@@ -138,7 +152,7 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
       <Onboarding
         containerStyles={{ paddingHorizontal: 15 }}
         showNext={pageIndex === 0 || isUsernameValid}
-        showDone={isPetNameValid}
+        showDone={isPetNameValid && isUsernameValid}
         showSkip={false}
         nextLabel={"Next"}
         pageIndexCallback={(index: number) => {
