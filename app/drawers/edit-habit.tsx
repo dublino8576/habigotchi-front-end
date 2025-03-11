@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, TextInput } from "react-native";
 import { Alert, Modal, Text, Pressable, View } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
+import { deleteHabit } from "@/API/api";
 
-export default function EditHabit() {
+export default function EditHabit(id: any) {
   const [modalVisible, setModalVisible] = useState(false);
+  console.log(id);
 
   return (
     <SafeAreaProvider>
@@ -21,6 +23,14 @@ export default function EditHabit() {
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
               <Text style={styles.modalText}>Edit habit</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="change name"
+              ></TextInput>
+              <TextInput
+                style={styles.input}
+                placeholder="change category"
+              ></TextInput>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => setModalVisible(!modalVisible)}
@@ -29,13 +39,16 @@ export default function EditHabit() {
               </Pressable>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={() => /*update habit*/ setModalVisible(!modalVisible)}
               >
                 <Text style={styles.textStyle}>Freeze</Text>
               </Pressable>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={() => {
+                  deleteHabit(id.id);
+                  setModalVisible(!modalVisible);
+                }}
               >
                 <Text style={styles.textStyle}>Delete</Text>
               </Pressable>
@@ -81,6 +94,17 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     padding: 10,
     elevation: 2,
+  },
+  input: {
+    width: 200,
+    height: 50,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    marginBottom: 15,
+    paddingLeft: 10,
+    borderRadius: 5,
+    marginTop: 15,
+    overflow: "hidden",
   },
   buttonOpen: {
     backgroundColor: "#0099FF",
