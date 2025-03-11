@@ -50,7 +50,9 @@ export default function DeleteAccount() {
               </Pressable>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible(!modalVisible)}
+                onPress={() =>
+                  /*delete request*/ setModalVisible(!modalVisible)
+                }
               >
                 <Text style={styles.textStyle}>Cancel</Text>
               </Pressable>

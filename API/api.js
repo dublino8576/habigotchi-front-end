@@ -54,6 +54,19 @@ export const getHabits = (user_id) => {
   });
 };
 
+export const deleteHabit = (habit_id) => {
+  return habigotchiServer.delete(`/habits/${habit_id}`).then(({ data }) => {
+    console.log("deleted");
+  });
+};
+export const addHabit = (reqBody, user_id) => {
+  return habigotchiServer
+    .post(`/habits/${user_id}`, reqBody)
+    .then(({ data }) => {
+      console.log(data);
+      return data;
+    });
+};
 // const reqBody = {
 //   user_onboarded: true,
 //   habits_tracked: 2,

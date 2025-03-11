@@ -41,10 +41,12 @@ export default function Habits() {
 
       checkOnboarding();
 
-      getHabits(3).then((allHabits) => {
-        // setHabits(allHabits);
+      getHabits(user_id).then((allHabits) => {
+        console.log(allHabits, "<-------");
+
+        setHabits(allHabits);
       });
-    }, [])
+    }, [habits])
   );
 
   useLayoutEffect(() => {
@@ -83,44 +85,40 @@ export default function Habits() {
           {habits.map(
             (habit: {
               //PROPERTIS FROM BACKEND
-              // habit_added: string;
-              // habit_category: string;
-              // habit_frequency: string;
-              // habit_id: number;
-              // habit_name: string;
-              // habit_status: string;
-              // user_id:number;
+              habit_added: string;
+              habit_category: string;
+              habit_frequency: string;
+              habit_id: number;
+              habit_name: string;
+              habit_status: string;
+              user_id: number;
 
-              completedTasks: number;
+              // completedTasks: number;
 
-              totalTasks: number;
+              // totalTasks: number;
 
-              name: string;
-
-              description: string;
-
-              currentStreak: number;
+              // currentStreak: number;
             }) => {
               return (
                 <View
-                  key={habit.name + habit.description}
+                  key={habit.habit_id}
                   style={[
                     styles.habitContainer,
-                    habit.completedTasks == habit.totalTasks &&
-                      styles.completedHabitContainer,
+                    // habit.completedTasks == habit.totalTasks &&
+                    //   styles.completedHabitContainer,
                   ]}
                 >
-                  <EditHabit />
-                  <Text style={styles.habitName}>{habit.name}</Text>
+                  <EditHabit id={habit.habit_id} />
+                  <Text style={styles.habitName}>{habit.habit_name}</Text>
                   <Text style={styles.habitDescription}>
-                    {habit.description}
+                    {habit.habit_category}
                   </Text>
-                  <Text style={styles.habitStreak}>
+                  {/* <Text style={styles.habitStreak}>
                     Current Streak: {habit.currentStreak} days
                   </Text>
                   <Text style={styles.habitProgress}>
                     Progress: {habit.completedTasks}/{habit.totalTasks}
-                  </Text>
+                  </Text> */}
                 </View>
               );
             }
