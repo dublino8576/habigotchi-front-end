@@ -11,6 +11,8 @@ import {
 } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { usePetInfo } from "@/contexts/UserContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { addHabit } from "@/API/api";
 
 export default function CreateHabit() {
   const [modalVisible, setModalVisible] = useState(false);
@@ -18,6 +20,16 @@ export default function CreateHabit() {
   const [description, setDescription] = useState("");
   const [totalTasks, setTotalTasks] = useState("");
   const { setHabits } = usePetInfo();
+  const [user_id, setUser_id] = useState(1);
+
+  console.log(user_id);
+  const getUserId = async function () {
+    const temp: any = await AsyncStorage.getItem("user_id");
+    setUser_id(temp);
+  };
+
+  getUserId();
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.centeredView}>
@@ -61,16 +73,21 @@ export default function CreateHabit() {
               <Pressable
                 style={[styles.button, styles.buttonOpen]}
                 onPress={() => {
-                  setHabits((prev: any) => [
-                    ...prev,
-                    {
-                      name: name,
-                      description: description,
-                      totalTasks: totalTasks,
-                      currentStreak: 0,
-                      completedTasks: 0,
-                    },
-                  ]);
+                  const reqBody = {
+                    habit_name: name,
+                    habit_category: description,
+                  };
+                  addHabit(reqBody, user_id);
+                  // setHabits((prev: any) => [
+                  //   ...prev,
+                  //   {
+                  //     name: name,
+                  //     description: description,
+                  //     totalTasks: totalTasks,
+                  //     currentStreak: 0,
+                  //     completedTasks: 0,
+                  //   },
+                  // ]);
                   setModalVisible(!modalVisible);
                 }}
               >
