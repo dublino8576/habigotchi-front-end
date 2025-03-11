@@ -16,16 +16,18 @@ export const getCategories = () => {
   });
 };
 
-export const getAllUsernames = () => {
-  return habigotchiServer.get("/users").then(({ data }) => {
-    return data.allUsers;
+export const addPet = (reqBody) => {
+  return habigotchiServer.post("/pets", reqBody).then(({ data }) => {
+    return data.addedPet;
   });
 };
 
-export const getPets = (reqBody) => {
-  return habigotchiServer.post("/pets", reqBody).then(({ data }) => {
-    return data;
-  });
+export const getPets = (reqBody, user_name) => {
+  return habigotchiServer
+    .post(`/pets/${user_name}`, reqBody)
+    .then(({ data }) => {
+      return data;
+    });
 };
 
 export const addUser = (reqBody) => {
@@ -34,15 +36,29 @@ export const addUser = (reqBody) => {
   });
 };
 
-export const addPet = (reqBody) => {
-  return habigotchiServer.post("/pets", reqBody).then(({ data }) => {
-    return data.addedPet;
+export const getAllUsernames = () => {
+  return habigotchiServer.get("/users").then(({ data }) => {
+    return data.allUsers;
   });
 };
 
-export const updateUser = (reqBody, user_id) => {
+export const getUser = (user_id) => {
+  return habigotchiServer.get(`/users/${user_id}`).then(({ data }) => {
+    return data.user;
+  });
+};
+
+export const addHabit = (reqBody, user_id) => {
   return habigotchiServer
-    .patch(`/users/${user_id}`, reqBody)
+    .post(`/habits/${user_id}`, reqBody)
+    .then(({ data }) => {
+      return data;
+    });
+};
+
+export const updatePet = (reqBody, user_name) => {
+  return habigotchiServer
+    .patch(`/pets/${user_name}`, reqBody)
     .then(({ data }) => {
       return data.upDatedUser[0];
     });
@@ -56,17 +72,26 @@ export const getHabits = (user_id) => {
 
 export const deleteHabit = (habit_id) => {
   return habigotchiServer.delete(`/habits/${habit_id}`).then(({ data }) => {
-    console.log("deleted");
+    console.log("AXIOS DELETED HABIT");
   });
 };
-export const addHabit = (reqBody, user_id) => {
+
+export const updateHabit = (reqBody, habit_id) => {
   return habigotchiServer
-    .post(`/habits/${user_id}`, reqBody)
+    .patch(`/habits/${habit_id}`, reqBody)
     .then(({ data }) => {
-      console.log(data);
-      return data;
+      return data.updatedHabit[0];
     });
 };
+
+export const updateUser = (reqBody, user_id) => {
+  return habigotchiServer
+    .patch(`/users/${user_id}`, reqBody)
+    .then(({ data }) => {
+      return data.upDatedUser[0];
+    });
+};
+
 // const reqBody = {
 //   user_onboarded: true,
 //   habits_tracked: 2,
