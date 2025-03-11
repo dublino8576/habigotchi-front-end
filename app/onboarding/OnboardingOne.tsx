@@ -4,9 +4,7 @@ import {
   View,
   TextInput,
   Keyboard,
-  NativeSyntheticEvent,
   BackHandler,
-  Dimensions,
 } from "react-native";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
@@ -15,6 +13,8 @@ import Onboarding from "react-native-onboarding-swiper";
 import LottieView from "lottie-react-native";
 import { usePetInfo } from "@/contexts/UserContext";
 import { addUser, addPet, updateUser, getAllUsernames } from "@/API/api";
+import LoginPage from "../(tabs)/login-page";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface OnboardingOneProps {
   isOnboarded: boolean;
@@ -34,9 +34,10 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState<boolean>(false);
-  const animationSize = isKeyboardVisible ? 150 : 300;
-  const petSize = isKeyboardVisible ? 50 : 150;
-  const { width, height } = Dimensions.get("window");
+  const animationPosition = isKeyboardVisible ? "-30%" : "10%";
+  const basePosition = isKeyboardVisible ? "-80%" : "0%";
+  const textInputPosition = isKeyboardVisible ? "-30%" : "0%";
+  const textPetPosition = isKeyboardVisible ? "-40%" : "-120%";
   const [loading, setLoading] = useState(false);
   const { name, setName, character, setCharacter } = usePetInfo();
   const {
@@ -121,11 +122,15 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
   };
   const handlePetName = (text: string): void => {
     setName(text);
-    if (name.length > 4) {
+    if (name.length > 3) {
       setIsPetNameValid(true);
     } else {
       setIsPetNameValid(false);
     }
+  };
+
+  const sendToLoginPage = () => {
+    router.push("/(tabs)/login-page");
   };
 
   const handleCompleteOnboarding = async () => {
@@ -161,18 +166,20 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <Onboarding
         containerStyles={{ paddingHorizontal: 15 }}
         showNext={pageIndex === 0 || isUsernameValid}
         showDone={isPetNameValid && username.length > 0 && isUsernameValid}
-        showSkip={false}
+        showSkip={pageIndex === 0}
         nextLabel={"Next"}
+        skipLabel={"Login"}
         pageIndexCallback={(index: number) => {
           setPageIndex(index);
           Keyboard.dismiss();
         }}
         onDone={handleCompleteOnboarding}
+        onSkip={sendToLoginPage}
         pages={[
           {
             backgroundColor: "#fff",
@@ -200,13 +207,32 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
                     autoPlay
                     loop
                     style={{
-                      width: animationSize,
-                      height: animationSize,
+                      width: 300,
+                      height: 300,
+                      top: animationPosition,
                     }}
                   />
                 </View>
                 )
-                <View>
+                <View style={{ top: textInputPosition }}>
+                  {isFocused && username.length > 0 && username.length < 5 ? (
+                    <View>
+                      <Text style={{ color: "red", alignSelf: "center" }}>
+                        Must be at least 5 characters!
+                      </Text>
+                    </View>
+                  ) : null}
+                  {isFocused && username.length >= 5 && isUsernameValid ? (
+                    <View>
+                      <Text style={{ color: "green" }}>Username is valid!</Text>
+                    </View>
+                  ) : isFocused && username.length >= 5 && !isUsernameValid ? (
+                    <View>
+                      <Text style={{ color: "red" }}>
+                        Username has been taken!
+                      </Text>
+                    </View>
+                  ) : null}
                   <TextInput
                     style={[
                       styles.input,
@@ -236,25 +262,6 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                   />
-                  {isFocused && username.length > 0 && username.length < 5 ? (
-                    <View>
-                      <Text style={{ color: "red" }}>
-                        Username must have at least 5 characters!
-                      </Text>
-                    </View>
-                  ) : null}
-
-                  {isFocused && username.length >= 5 && isUsernameValid ? (
-                    <View>
-                      <Text style={{ color: "green" }}>Username is valid!</Text>
-                    </View>
-                  ) : isFocused && username.length >= 5 && !isUsernameValid ? (
-                    <View>
-                      <Text style={{ color: "red" }}>
-                        Username has been taken!
-                      </Text>
-                    </View>
-                  ) : null}
                 </View>
               </>
             ),
@@ -265,87 +272,68 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
             backgroundColor: "#fff",
             image: (
               <>
-                <View>
-                  <View>
-                    <LottieView
-                      source={require("../../assets/animations/base-for-pet.json")}
-                      autoPlay
-                      loop
-                      style={{
-                        width: animationSize,
-                        height: animationSize,
-                        justifyContent: "center",
-                        alignSelf: "center",
-                        top: "35%",
-                      }}
-                    ></LottieView>
-
-                    <LottieView
-                      source={require("../../assets/animations/mushroom-gif.json")}
-                      autoPlay
-                      loop
-                      style={{
-                        width: petSize,
-                        height: petSize,
-                        position: "absolute",
-                        top: "40%",
-                        alignSelf: "center",
-                      }}
-                    />
-                  </View>
-                  <View
+                <View
+                  style={{
+                    flex: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    top: basePosition,
+                  }}
+                >
+                  <LottieView
+                    source={require("../../assets/animations/base-for-pet.json")}
+                    autoPlay
+                    loop
                     style={{
-                      flex: 1,
-                      justifyContent: "center",
-                      alignItems: "center",
-                      position: "relative",
+                      width: 300,
+                      height: 300,
+                      top: animationPosition, // Adjust this value as needed
                     }}
-                  >
-                    {!!isFocused && !isPetNameValid && (
-                      <Text style={{ color: "red" }}>
-                        Pet name must have at least 5 characters!
-                      </Text>
-                    )}
-                    <TextInput
-                      style={[
-                        styles.input,
-                        {
-                          borderColor:
-                            !!isFocused && !isPetNameValid ? "red" : "#ccc",
-                        },
-                      ]}
-                      placeholder="Type the name of your pet"
-                      multiline={false}
-                      numberOfLines={1}
-                      value={name}
-                      onChangeText={handlePetName}
-                      placeholderTextColor="#999"
-                      onFocus={handleFocus}
-                      onBlur={handleBlur}
-                    />
-                  </View>
+                  />
+                </View>
+
+                <View style={{ bottom: textPetPosition }}>
+                  {isFocused && name.length < 5 ? (
+                    <Text style={{ color: "red", textAlign: "center" }}>
+                      Must be at least 5 characters!
+                    </Text>
+                  ) : null}
+                  {isFocused && name.length >= 5 ? (
+                    <Text style={{ color: "green", textAlign: "center" }}>
+                      Pet name is valid!
+                    </Text>
+                  ) : null}
+
+                  <TextInput
+                    style={[
+                      styles.input,
+                      {
+                        borderColor:
+                          isFocused && name.length < 5
+                            ? "red"
+                            : isFocused && name.length > 4
+                            ? "green"
+                            : "#ccc",
+                      },
+                    ]}
+                    placeholder="Type your username"
+                    multiline={false}
+                    numberOfLines={1}
+                    value={name}
+                    onChangeText={handlePetName}
+                    placeholderTextColor="#999"
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                  />
                 </View>
               </>
             ),
-            title: (
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: "flex-end",
-                  alignItems: "center",
-                  paddingBottom: 50,
-                }}
-              >
-                <Text style={{ fontSize: 24, fontWeight: "bold" }}>
-                  Choose your pet!
-                </Text>
-              </View>
-            ),
-            subtitle: "Done with React Native Onboarding Swiper",
+            title: "",
+            subtitle: "",
           },
         ]}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
