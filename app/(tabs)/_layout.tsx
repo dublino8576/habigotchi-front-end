@@ -62,6 +62,7 @@ export default function TabLayout() {
           ),
         }}
       />
+
       <Tabs.Screen
         name="friends"
         options={{
@@ -69,6 +70,12 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <IconSymbol size={28} name="person.3.fill" color={color} />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="login-page"
+        options={{
+          href: null, // Hides it from the tab bar
         }}
       />
     </Tabs>

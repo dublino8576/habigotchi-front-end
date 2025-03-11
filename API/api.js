@@ -22,12 +22,10 @@ export const addPet = (reqBody) => {
   });
 };
 
-export const getPets = (reqBody, user_name) => {
-  return habigotchiServer
-    .post(`/pets/${user_name}`, reqBody)
-    .then(({ data }) => {
-      return data;
-    });
+export const getPets = (username) => {
+  return habigotchiServer.get(`/pets/${username}`).then(({ data }) => {
+    return data;
+  });
 };
 
 export const addUser = (reqBody) => {
