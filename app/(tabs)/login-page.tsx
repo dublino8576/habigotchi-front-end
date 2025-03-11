@@ -1,4 +1,4 @@
-import { getAllUsernames } from "@/API/api";
+import { getAllUsernames, getPets } from "@/API/api";
 import { usePetInfo } from "@/contexts/UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
@@ -97,6 +97,33 @@ const LoginPage = () => {
     }
   };
 
+  const handleLogin = async () => {
+    setLoading(true);
+    const allUsers = await getAllUsernames();
+    const userLoginProfile = allUsers.find((user: any) => {
+      return user.user_name === username;
+    });
+    const usernameParametric = userLoginProfile.user_name;
+    const petProfile = await getPets(usernameParametric);
+    const petNameAxios = petProfile.pet_name;
+    const petHealthAxios = petProfile.pet_health;
+    const petHappinessAxios = petProfile.pet_happiness;
+    const petCoinsAxios = petProfile.current_coin;
+    await AsyncStorage.multiSet([
+      ["isOnboarded", "true"],
+      ["user_id", JSON.stringify(userLoginProfile.user_id)],
+      ["pet_id", JSON.stringify(userLoginProfile.pet_id)],
+      ["user_name", JSON.stringify(userLoginProfile.user_name)],
+    ]);
+    setLoading(false);
+    setHealth(petHealthAxios);
+    setHappiness(petHappinessAxios);
+    setCoins(petCoinsAxios);
+    setSelectedPet("petOne");
+    setPetName(petNameAxios.charAt(0).toUpperCase() + petNameAxios.slice(1));
+    router.push("/");
+  };
+
   const handleFocus = () => {
     setIsFocused(true);
   };
@@ -107,9 +134,10 @@ const LoginPage = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Onboarding
-        showDone={true}
+        showDone={isUsernameValid}
         showSkip={true}
         skipLabel={"Sign-in"}
+        onDone={handleLogin}
         pages={[
           {
             backgroundColor: "#fff",

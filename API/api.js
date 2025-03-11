@@ -22,8 +22,9 @@ export const getAllUsernames = () => {
   });
 };
 
-export const getPets = (reqBody) => {
-  return habigotchiServer.post("/pets", reqBody).then(({ data }) => {
+export const getPets = (username) => {
+  return habigotchiServer.get(`/pets/${username}`).then(({ data }) => {
+    console.log(data, "data");
     return data;
   });
 };
