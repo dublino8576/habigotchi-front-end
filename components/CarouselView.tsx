@@ -36,7 +36,6 @@ type CarouselProps = {
 
 export const CarouselView: React.FC<CarouselProps> = ({ items }) => {
   const [newItems] = useState<CarouselItem[]>([
-    { key: "spacer-left" },
     ...items,
     { key: "spacer-right" },
   ]);
@@ -66,8 +65,15 @@ export const CarouselView: React.FC<CarouselProps> = ({ items }) => {
         snapToInterval={SIZE}
         decelerationRate="fast"
         onScroll={onScroll}
+        style={{
+          width: "160%",
+          left: "-30%",
+          paddingTop: "5%",
+          paddingLeft: "20%",
+          transform: [{ translateX: "-10%" }],
+        }}
       >
-        {newItems.map((item, index) => {
+        {newItems.map((item: any, index) => {
           const style = useAnimatedStyle(() => {
             const scale = interpolate(
               x.value,
@@ -83,7 +89,7 @@ export const CarouselView: React.FC<CarouselProps> = ({ items }) => {
           }
           const tapGesture = Gesture.Tap().onEnd(() => handlePress(item));
           return (
-            <View key={index} style={{ width: SIZE, marginHorizontal: 10 }}>
+            <View key={index} style={{ width: SIZE, marginHorizontal: 5 }}>
               <Animated.View style={styles.imageContainer}>
                 <Image
                   source={item.img_url}
