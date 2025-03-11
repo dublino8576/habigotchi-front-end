@@ -16,6 +16,12 @@ export const getCategories = () => {
   });
 };
 
+export const getAllUsernames = () => {
+  return habigotchiServer.get("/users").then(({ data }) => {
+    return data.allUsers;
+  });
+};
+
 export const getPets = (reqBody) => {
   return habigotchiServer.post("/pets", reqBody).then(({ data }) => {
     return data;
@@ -23,26 +29,29 @@ export const getPets = (reqBody) => {
 };
 
 export const addUser = (reqBody) => {
-  console.log(reqBody, "request body");
   return habigotchiServer.post("/users", reqBody).then(({ data }) => {
-    console.log(data, "data");
-    return data;
+    return data.addedUser[0];
   });
 };
 
 export const addPet = (reqBody) => {
   return habigotchiServer.post("/pets", reqBody).then(({ data }) => {
-    return data;
+    return data.addedPet;
   });
 };
 
 export const updateUser = (reqBody, user_id) => {
-  console.log(reqBody, "inside axios");
   return habigotchiServer
     .patch(`/users/${user_id}`, reqBody)
     .then(({ data }) => {
-      return data;
+      return data.upDatedUser[0];
     });
+};
+
+export const getHabits = (user_id) => {
+  return habigotchiServer.get(`/habits/${user_id}`).then(({ data }) => {
+    return data.userHabits;
+  });
 };
 
 // const reqBody = {

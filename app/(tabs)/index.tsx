@@ -21,21 +21,29 @@ import EditHabit from "../drawers/edit-habit";
 import OnboardingOne from "../onboarding/OnboardingOne";
 import { Header } from "@/components/Header";
 import { usePetInfo } from "@/contexts/UserContext";
+import { getHabits } from "@/API/api";
+import { all } from "axios";
 
 export default function Habits() {
   const [isOnboarded, setIsOnboarded] = useState<boolean>(true);
   const navigation = useNavigation();
   const { habits, setHabits } = usePetInfo();
+  let user_id: any;
 
   useFocusEffect(
     useCallback(() => {
       const checkOnboarding = async () => {
         const onboarded = await AsyncStorage.getItem("isOnboarded");
+        user_id = await AsyncStorage.getItem("user_id");
         console.log("Fetched isOnboarded value from AsyncStorage:", onboarded);
         setIsOnboarded(onboarded === "true"); // Ensures re-check on screen focus
       };
 
       checkOnboarding();
+
+      getHabits(3).then((allHabits) => {
+        // setHabits(allHabits);
+      });
     }, [])
   );
 
@@ -74,6 +82,15 @@ export default function Habits() {
 
           {habits.map(
             (habit: {
+              //PROPERTIS FROM BACKEND
+              // habit_added: string;
+              // habit_category: string;
+              // habit_frequency: string;
+              // habit_id: number;
+              // habit_name: string;
+              // habit_status: string;
+              // user_id:number;
+
               completedTasks: number;
 
               totalTasks: number;

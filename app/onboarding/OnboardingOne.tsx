@@ -14,7 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Onboarding from "react-native-onboarding-swiper";
 import LottieView from "lottie-react-native";
 import { usePetInfo } from "@/contexts/UserContext";
-import { addUser, addPet, updateUser } from "@/API/api";
+import { addUser, addPet, updateUser, getAllUsernames } from "@/API/api";
 
 interface OnboardingOneProps {
   isOnboarded: boolean;
@@ -30,7 +30,7 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
   const router = useRouter();
 
   const { username, setUsername } = usePetInfo();
-  const [isUsernameValid, setIsUsernameValid] = useState<boolean>(false);
+  const [isUsernameValid, setIsUsernameValid] = useState<boolean>();
   const [pageIndex, setPageIndex] = useState<number>(0);
   const [isFocused, setIsFocused] = useState<boolean>(false);
   const [isKeyboardVisible, setIsKeyboardVisible] = useState<boolean>(false);
@@ -51,12 +51,19 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
 
   const handleUsername = (text: string): void => {
     setUsername(text);
+
     if (text.length > 4) {
-      setIsUsernameValid(true);
-    } else {
-      setIsUsernameValid(false);
+      getAllUsernames().then((result: any) => {
+        const usernameArray = result.map((user: any) => user.user_name);
+        if (usernameArray.includes(text)) {
+          setIsUsernameValid(false);
+        } else {
+          setIsUsernameValid(true);
+        }
+      });
     }
   };
+
   const handleFocus = () => {
     setIsFocused(true);
   };
@@ -124,24 +131,24 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
   const handleCompleteOnboarding = async () => {
     setLoading(true);
     // Mark user as onboarded and logged in
-    const createUser = { user_name: username };
-    const createPet = { pet_name: name, pet_status: "TEST PET STATUS" };
-    console.log(createUser);
-    const createdUser = await addUser(createUser);
+    const addUserBody = { user_name: username };
+    const addPetBody = { pet_name: name, pet_status: "TEST PET STATUS" };
 
-    const createdPet = await addPet(createPet);
-    console.log("CREATED PET", createdPet);
-    const petID = { pet_id: createdPet.addedPet.pet_id };
-    console.log("PET_ID", petID);
-    const user_id = createdUser.addedUser[0].user_id;
-    console.log(user_id, "User id");
-    /* const updatedUser = await updateUser(petID, user_id).catch((err) => {
-      console.log(err, "error updateUser");
-    }); */
+    const createdUser = await addUser(addUserBody);
+    const createdPet = await addPet(addPetBody);
+    const pet_id = createdPet.pet_id;
+    const updateUserBody = { pet_id: createdPet.pet_id, user_onboarded: true };
+    const user_id = createdUser.user_id;
 
-    /*     console.log("UPDATED USER", updatedUser);
-     */
-    await AsyncStorage.setItem("isOnboarded", "true");
+    const updatedUser = await updateUser(updateUserBody, user_id);
+
+    await AsyncStorage.multiSet([
+      ["isOnboarded", "true"],
+      ["user_id", JSON.stringify(user_id)],
+      ["pet_id", JSON.stringify(pet_id)],
+      ["user_name", JSON.stringify(username)],
+    ]);
+
     setLoading(false);
     setHealth(80);
     setHappiness(100);
@@ -158,7 +165,7 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
       <Onboarding
         containerStyles={{ paddingHorizontal: 15 }}
         showNext={pageIndex === 0 || isUsernameValid}
-        showDone={isPetNameValid && isUsernameValid}
+        showDone={isPetNameValid && username.length > 0 && isUsernameValid}
         showSkip={false}
         nextLabel={"Next"}
         pageIndexCallback={(index: number) => {
@@ -205,7 +212,19 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
                       styles.input,
                       {
                         borderColor:
-                          !!isFocused && !isUsernameValid ? "red" : "#ccc",
+                          isFocused &&
+                          username.length > 0 &&
+                          username.length < 5
+                            ? "red"
+                            : isFocused &&
+                              username.length >= 5 &&
+                              isUsernameValid
+                            ? "green"
+                            : isFocused &&
+                              username.length >= 5 &&
+                              !isUsernameValid
+                            ? "red"
+                            : "#ccc",
                       },
                     ]}
                     placeholder="Type your username"
@@ -217,13 +236,25 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                   />
-                  {!!isFocused && !isUsernameValid && (
+                  {isFocused && username.length > 0 && username.length < 5 ? (
                     <View>
                       <Text style={{ color: "red" }}>
                         Username must have at least 5 characters!
                       </Text>
                     </View>
-                  )}
+                  ) : null}
+
+                  {isFocused && username.length >= 5 && isUsernameValid ? (
+                    <View>
+                      <Text style={{ color: "green" }}>Username is valid!</Text>
+                    </View>
+                  ) : isFocused && username.length >= 5 && !isUsernameValid ? (
+                    <View>
+                      <Text style={{ color: "red" }}>
+                        Username has been taken!
+                      </Text>
+                    </View>
+                  ) : null}
                 </View>
               </>
             ),
