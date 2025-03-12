@@ -90,6 +90,14 @@ export const updateUser = (reqBody, user_id) => {
     });
 };
 
+export const deleteUser = (user_id) => {
+  return habigotchiServer
+    .delete(`/users/${user_id}`)
+    .then(({ data }) => {
+      return data.upDatedUser[0];
+    });
+};
+
 // const reqBody = {
 //   user_onboarded: true,
 //   habits_tracked: 2,

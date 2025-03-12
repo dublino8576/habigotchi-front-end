@@ -4,11 +4,10 @@ import { Alert, Modal, Text, Pressable, View } from "react-native";
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
-import { deleteUser } from "@/API/api";
 
 import { usePetInfo } from "@/contexts/UserContext";
 
-export default function DeleteAccount() {
+export default function LogOut() {
   const [modalVisible, setModalVisible] = useState(false);
   const router = useRouter();
 
@@ -20,12 +19,6 @@ export default function DeleteAccount() {
     console.log("heelo");
     router.replace("/");
   };
-
-  const removeAccount = async () => {
-    const user_id = await AsyncStorage.getItem("user_id");
-    deleteUser(user_id);
-    await AsyncStorage.removeItem("user_id");
-  }
 
   return (
     <SafeAreaProvider>
@@ -41,20 +34,18 @@ export default function DeleteAccount() {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={styles.modalText}>Delete account</Text>
+              <Text style={styles.modalText}>Log Out</Text>
               <Text>
-                This will delete your pet and account data, this cannot be
-                undone. Are you sure?
+                Are you sure you want to log out?
               </Text>
               <Pressable
                 style={[styles.button, styles.buttonDelete]}
                 onPress={() => {
-                  removeAccount()
                   setModalVisible(!modalVisible);
                   resetOnboarding();
                 }}
               >
-                <Text style={styles.textStyle}>Confirm delete</Text>
+                <Text style={styles.textStyle}>Confirm</Text>
               </Pressable>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
@@ -72,7 +63,7 @@ export default function DeleteAccount() {
           style={[styles.button, styles.buttonDelete]}
           onPress={() => setModalVisible(true)}
         >
-          <Text style={styles.textStyle}>Delete account</Text>
+          <Text style={styles.textStyle}>Log Out</Text>
         </Pressable>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -108,7 +99,7 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   buttonDelete: {
-    backgroundColor: "red",
+    backgroundColor: "orange",
     marginTop: 15,
     marginBottom: 15,
   },

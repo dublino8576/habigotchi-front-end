@@ -14,6 +14,7 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 
 import EditPet from "../drawers/edit-pet";
 import DeleteAccount from "../drawers/delete-account";
+import LogOut from "../drawers/logout";
 import { Header } from "@/components/Header";
 
 export default function Pet() {
@@ -26,6 +27,7 @@ export default function Pet() {
         <ThemedText type="title">Pet</ThemedText>
       </ThemedView>
       <EditPet />
+      <LogOut />
       <DeleteAccount />
     </ParallaxScrollView>
   );
