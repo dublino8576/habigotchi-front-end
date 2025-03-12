@@ -58,7 +58,10 @@ export const updatePet = (reqBody, user_name) => {
   return habigotchiServer
     .patch(`/pets/${user_name}`, reqBody)
     .then(({ data }) => {
-      return data.upDatedUser[0];
+      return data.upDatedPet;
+    })
+    .catch((err) => {
+      console.log(err, "in updatePetAxios error");
     });
 };
 
@@ -87,6 +90,9 @@ export const updateUser = (reqBody, user_id) => {
     .patch(`/users/${user_id}`, reqBody)
     .then(({ data }) => {
       return data.upDatedUser[0];
+    })
+    .catch((err) => {
+      console.log(err, "error in axios update user");
     });
 };
 

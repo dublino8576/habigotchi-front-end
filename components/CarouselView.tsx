@@ -1,7 +1,6 @@
 import {
   Text,
   View,
-  ScrollView,
   Image,
   StyleSheet,
   useWindowDimensions,
@@ -16,6 +15,10 @@ import Animated, {
   interpolate,
 } from "react-native-reanimated";
 import { Gesture } from "react-native-gesture-handler";
+import { usePetInfo } from "@/contexts/UserContext";
+import { useFocusEffect } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getPets, getUser, updatePet, updateUser } from "@/API/api";
 
 type Item = {
   img_url: any;
@@ -35,6 +38,17 @@ type CarouselProps = {
 };
 
 export const CarouselView: React.FC<CarouselProps> = ({ items }) => {
+  const {
+    happiness,
+    setHappiness,
+    coins,
+    setCoins,
+    health,
+    setHealth,
+    username,
+  } = usePetInfo();
+  const [isItemBought, setIsItemBought] = useState(true);
+  const [areCoinsEnough, setAreCoinsEnough] = useState(true);
   const [newItems] = useState<CarouselItem[]>([
     ...items,
     { key: "spacer-right" },
@@ -42,6 +56,7 @@ export const CarouselView: React.FC<CarouselProps> = ({ items }) => {
   const [selectShopItem, setSelectShopItem] = useState<Item | null>(null);
   const [isModalShown, setIsModalShown] = useState(false);
   const { width } = useWindowDimensions();
+
   const SIZE = width * 0.4;
   const SPACER = (width - SIZE) / 2;
   const x = useSharedValue(0);
@@ -53,6 +68,121 @@ export const CarouselView: React.FC<CarouselProps> = ({ items }) => {
   const handlePress = (item: any) => {
     setIsModalShown(true);
     setSelectShopItem(item);
+  };
+
+  const handleStore = async (selectShopItem: any) => {
+    const nameItemBought = selectShopItem.name;
+    const regex = /\d+/g;
+    const priceItemBoughtNumber = Number(
+      selectShopItem.price.match(regex).join("")
+    );
+
+    const healthItemBought = Number(selectShopItem.health);
+    const happinessItemBought = Number(selectShopItem.happiness);
+    if (coins < priceItemBoughtNumber) {
+      setIsItemBought(false);
+      setAreCoinsEnough(false);
+      return;
+    }
+    setIsItemBought(true);
+    setCoins((prevCoins: number) => prevCoins - priceItemBoughtNumber);
+
+    const dataFromStorage = await AsyncStorage.multiGet(["user_id"]);
+    const user_id = dataFromStorage[0][1];
+    const userProfile = await getUser(user_id);
+    const coinsSpent = userProfile.coins_spent;
+    const appleBought = userProfile.bought_apple;
+    const ballBought = userProfile.bought_ball;
+    const strawberryBought = userProfile.bought_strawberry;
+    const iceCreamBought = userProfile.bought_ice_cream;
+    let requestBody = {};
+    if (nameItemBought === "Strawberry") {
+      requestBody = {
+        bought_strawberry: strawberryBought + 1,
+        coins_spent: coinsSpent + priceItemBoughtNumber,
+      };
+    } else if (nameItemBought === "Ice-cream") {
+      requestBody = {
+        bought_ice_cream: iceCreamBought + 1,
+        coins_spent: coinsSpent + priceItemBoughtNumber,
+      };
+    } else if (nameItemBought === "Apple") {
+      requestBody = {
+        bought_apple: appleBought + 1,
+        coins_spent: coinsSpent + priceItemBoughtNumber,
+      };
+    } else if (nameItemBought === "Ball") {
+      requestBody = {
+        bought_ball: ballBought + 1,
+        coins_spent: coinsSpent + priceItemBoughtNumber,
+      };
+    }
+    const updatedUserProof = await updateUser(requestBody, user_id);
+    const petProfile = await getPets(username);
+
+    let petCurrentCoins = petProfile.current_coin;
+
+    let requestBodyPet = {};
+    const newCoinsBalance = petCurrentCoins - priceItemBoughtNumber;
+    if (
+      coins >= priceItemBoughtNumber &&
+      health + healthItemBought <= 100 &&
+      happiness + happinessItemBought <= 100
+    ) {
+      requestBodyPet = {
+        pet_health: health + healthItemBought,
+        pet_happiness: happiness + happinessItemBought,
+        current_coin: newCoinsBalance === 0 ? -1 : newCoinsBalance,
+      };
+      const updatedPet = await updatePet(requestBodyPet, username);
+      setHealth((prevHealth: number) => prevHealth + healthItemBought);
+      setHappiness(
+        (prevHappiness: number) => prevHappiness + happinessItemBought
+      );
+    } else if (
+      coins >= priceItemBoughtNumber &&
+      health + healthItemBought > 100 &&
+      happiness + happinessItemBought > 100
+    ) {
+      requestBodyPet = {
+        pet_health: 100,
+        pet_happiness: 100,
+        current_coin: newCoinsBalance === 0 ? -1 : newCoinsBalance,
+      };
+      const updatedPet = await updatePet(requestBodyPet, username);
+      setHealth(100);
+      setHappiness(100);
+    } else if (
+      coins >= priceItemBoughtNumber &&
+      health + healthItemBought > 100 &&
+      happiness + happinessItemBought <= 100
+    ) {
+      requestBodyPet = {
+        pet_health: 100,
+        pet_happiness: happiness + healthItemBought,
+        current_coin: newCoinsBalance === 0 ? -1 : newCoinsBalance,
+      };
+      const updatedPet = await updatePet(requestBodyPet, username);
+
+      setHappiness(
+        (prevHappiness: number) => prevHappiness + happinessItemBought
+      );
+      setHealth(100);
+    } else if (
+      coins >= priceItemBoughtNumber &&
+      happiness + happinessItemBought > 100 &&
+      health + healthItemBought <= 100
+    ) {
+      requestBodyPet = {
+        pet_health: health + healthItemBought,
+        pet_happiness: 100,
+        current_coin: newCoinsBalance === 0 ? -1 : newCoinsBalance,
+      };
+      const updatedPet = await updatePet(requestBodyPet, username);
+
+      setHappiness(100);
+      setHealth((prevHealth: number) => prevHealth + healthItemBought);
+    }
   };
 
   return (
@@ -111,7 +241,13 @@ export const CarouselView: React.FC<CarouselProps> = ({ items }) => {
         animationType="slide"
         visible={isModalShown}
         transparent={true}
-        onRequestClose={() => setIsModalShown(false)}
+        onShow={() => {
+          setIsItemBought(false);
+          setAreCoinsEnough(true);
+        }}
+        onRequestClose={() => {
+          setIsModalShown(false);
+        }}
       >
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
@@ -122,9 +258,24 @@ export const CarouselView: React.FC<CarouselProps> = ({ items }) => {
             <Text style={styles.textModal}>
               It costs: {selectShopItem?.price}
             </Text>
-            <TouchableOpacity style={styles.buyButtonModal}>
-              <Text style={styles.buyButtonText}>Buy Now</Text>
-            </TouchableOpacity>
+
+            {isItemBought && areCoinsEnough ? (
+              <Text style={(styles.buyButtonText, { color: "green" })}>
+                Bought
+              </Text>
+            ) : !isItemBought && areCoinsEnough ? (
+              <TouchableOpacity
+                style={styles.buyButtonModal}
+                onPress={() => handleStore(selectShopItem)}
+              >
+                <Text style={styles.buyButtonText}>Buy Now</Text>
+              </TouchableOpacity>
+            ) : (
+              <Text style={(styles.buyButtonText, { color: "red" })}>
+                Not enough coins
+              </Text>
+            )}
+
             <Text
               onPress={() => setIsModalShown(false)}
               style={styles.closeButton}
