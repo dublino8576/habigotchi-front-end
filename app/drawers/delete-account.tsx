@@ -25,6 +25,7 @@ export default function DeleteAccount() {
     const user_id = await AsyncStorage.getItem("user_id");
     deleteUser(user_id);
     await AsyncStorage.removeItem("user_id");
+    await AsyncStorage.removeItem("user_name")
   }
 
   return (

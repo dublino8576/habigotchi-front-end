@@ -55,6 +55,7 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
 
     if (text.length > 4) {
       getAllUsernames().then((result: any) => {
+        console.log(result)
         const usernameArray = result.map((user: any) => user.user_name);
         if (usernameArray.includes(text)) {
           setIsUsernameValid(false);

@@ -6,7 +6,6 @@ import { deleteHabit } from "@/API/api";
 
 export default function EditHabit(id: any) {
   const [modalVisible, setModalVisible] = useState(false);
-  console.log(id);
 
   return (
     <SafeAreaProvider>
