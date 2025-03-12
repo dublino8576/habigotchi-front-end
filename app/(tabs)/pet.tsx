@@ -5,9 +5,11 @@ import { ThemedView } from "@/components/ThemedView";
 import { Header } from "@/components/Header";
 import EditPet from "../drawers/edit-pet";
 import DeleteAccount from "../drawers/delete-account";
+import LogOut from "../drawers/logout";
 import { useState } from "react";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { usePetInfo } from "@/contexts/UserContext";
+
 
 const API_KEY = "AIzaSyDfe3eXhYtt-WlEAyUvVReIZhbiI6ZsnoU";
 export default function Pet() {
@@ -71,6 +73,7 @@ export default function Pet() {
       </View>
 
       <EditPet />
+      <LogOut />
       <DeleteAccount />
     </ParallaxScrollView>
   );
