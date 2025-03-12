@@ -19,7 +19,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const LoginPage = () => {
   const navigation = useNavigation();
-  const [pageIndex, setPageIndex] = useState<number>(0);
   const router = useRouter();
   const { username, setUsername } = usePetInfo();
   const { name, setName, character, setCharacter } = usePetInfo();

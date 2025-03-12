@@ -22,7 +22,6 @@ export default function CreateHabit() {
   const { setHabits } = usePetInfo();
   const [user_id, setUser_id] = useState(1);
 
-  console.log(user_id);
   const getUserId = async function () {
     const temp: any = await AsyncStorage.getItem("user_id");
     setUser_id(temp);
