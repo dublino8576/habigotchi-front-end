@@ -60,7 +60,8 @@ export default function Pet() {
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
 
     const result = await model.generateContent(
-      question + "Please respond in a maximum of three sentences."
+      question +
+        "Please respond in a maximum of three sentences and talk like your a pet buddy but not too childish."
     );
     const responseText = result.response.text();
 
