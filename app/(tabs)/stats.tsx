@@ -109,7 +109,7 @@ export default function Stats() {
             <Text style={styles.statTitle}>Highest Streak</Text>
             <View style={styles.statIconRow}>
               <Text style={styles.statValue}>
-                ⚡{userStats?.highest_streak}x
+                ⚡{trackerData.highestStreak}x
               </Text>
             </View>
           </View>

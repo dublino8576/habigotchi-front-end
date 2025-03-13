@@ -113,13 +113,13 @@ export default function Pet() {
       <EditPet />
       <LogOut />
       <DeleteAccount />
-      {petinfo ? (
+      {/* {petinfo ? (
         <View>
           <Text>Name:{petinfo.pet_name}</Text>
           <Text>Status:{petinfo.pet_name}</Text>
           <Text>Age:{petinfo.pet_birthday}</Text>
         </View>
-      ) : null}
+      ) : null} */}
     </ParallaxScrollView>
   );
 }
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   statText: {
     fontSize: 16,
     marginBottom: 4,
-    color: "#fff",
+    color: "#000",
   },
   boldText: {
     fontWeight: "bold",
