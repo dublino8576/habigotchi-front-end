@@ -113,39 +113,25 @@ export default function Habits() {
                       : null,
                   ]}
                 >
-                  <Text style={styles.habitFrequency}>
-                    {habit.habit_frequency}
-                  </Text>
+                  {" "}
                   <EditHabit
                     habitId={habit.habit_id}
                     setUpdatedHabits={setUpdatedHabits}
                     updatedHabits={updatedHabits}
                   />
-                  <Text
-                    style={
-                      habit.habit_status == "Completed"
-                        ? styles.completedHabitName
-                        : styles.habitName
-                    }
-                  >
-                    {habit.habit_name}
+                  <Text style={styles.categoryText}>
+                    {habit.habit_category}
                   </Text>
+                  <Text style={styles.habitName}>{habit.habit_name}</Text>
                   <Text style={styles.habitDescription}>
                     {habit.habit_description}
-                  </Text>
-                  <Text
-                    style={
-                      habit.habit_status == "Completed"
-                        ? styles.completedategoryText
-                        : styles.categoryText
-                    }
-                  >
-                    {habit.habit_category}
                   </Text>
                   <Text style={styles.habitProgress}>
                     Progress: {habit.habit_status}
                   </Text>
-
+                  <Text style={styles.habitFrequency}>
+                    {habit.habit_frequency}
+                  </Text>
                   {/* <Text style={styles.habitStreak}>
                     Current Streak: {habit.currentStreak} days
                   </Text>
@@ -197,7 +183,7 @@ const styles = StyleSheet.create({
   habitName: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#556b2f",
+    color: "black",
   },
 
   habitDescription: {
@@ -217,8 +203,9 @@ const styles = StyleSheet.create({
   },
 
   habitFrequency: {
-    fontSize: 16,
-    color: "#B6174B",
+    fontSize: 20,
+    marginTop: 20,
+    color: "black",
     fontWeight: "bold",
   },
   completedHabitContainer: {
@@ -226,9 +213,9 @@ const styles = StyleSheet.create({
     // backgroundColor: "#212121",
   },
   categoryText: {
-    fontSize: 16,
+    fontSize: 26,
     fontWeight: "bold",
-    color: "#556b2f",
+
     // color: "#1C5253",
   },
   completedategoryText: {

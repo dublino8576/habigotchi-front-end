@@ -53,19 +53,19 @@ export function PetDisplay() {
       case "petOne":
         switch (petState) {
           case "veryHappy":
-            return require("../assets/pets/petOne/veryHappy.png");
+            return require("../assets/pets/petThree/veryHappy.png");
           case "happy":
-            return require("../assets/pets/petOne/happy.png");
+            return require("../assets/pets/petThree/happy.png");
           case "neutral":
-            return require("../assets/pets/petOne/neutral.png");
+            return require("../assets/pets/petThree/neutral.png");
           case "sad":
-            return require("../assets/pets/petOne/sad.png");
+            return require("../assets/pets/petThree/sad.png");
           case "verySad":
-            return require("../assets/pets/petOne/verySad.png");
+            return require("../assets/pets/petThree/verySad.png");
           case "disappear":
-            return require("../assets/pets/petOne/disappear.png");
+            return require("../assets/pets/petThree/disappear.png");
           default:
-            return require("../assets/pets/petOne/hibernate.png");
+            return require("../assets/pets/petThree/hibernate.png");
         }
       default:
         return require("../assets/pets/MissingNo.png");

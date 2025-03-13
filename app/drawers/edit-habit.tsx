@@ -93,7 +93,6 @@ export default function EditHabit({
     }
   }
 
-
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.centeredView}>
@@ -270,10 +269,14 @@ const styles = StyleSheet.create({
     elevation: 5, */
   },
   button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
-    height: 38,
+    paddingVertical: 5, // Add vertical padding for a bigger click area
+    paddingHorizontal: 8, // Add horizontal padding for a wider button
+    borderRadius: 10,
+    elevation: 5, // Increase elevation for a floating effect
+    height: 30, // Increase height for better touch interaction
+    backgroundColor: "white", // Add a vibrant background color (light blue for a clean look)
+    justifyContent: "center", // Ensure content is centered inside the button
+    alignItems: "center", // Make sure the text is centered
   },
   input: {
     width: 210,
