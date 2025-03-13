@@ -64,6 +64,7 @@ export default function CreateHabit({
     { label: "Weekly", value: "Weekly" },
   ]);
 
+
   useEffect(() => {
     if (modalVisible) {
       console.log("MODALVISIBLE", modalVisible);
@@ -80,6 +81,7 @@ export default function CreateHabit({
         setUserStats(userData);
       });
     };
+
 
     getUserId();
   }, [updatedHabits]);

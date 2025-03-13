@@ -34,6 +34,7 @@ export default function EditHabit({
   updatedHabits,
 }: EditHabitPage) {
   const [modalVisible, setModalVisible] = useState(false);
+
   const [habitName, setHabitName] = useState<string>();
   const [habitCategory, setHabitCategory] = useState<string>();
   const [openCategory, setOpenCategory] = useState(false);
@@ -91,6 +92,7 @@ export default function EditHabit({
       updateUser(updateTotalCompleted, user_id);
     }
   }
+
 
   return (
     <SafeAreaProvider>

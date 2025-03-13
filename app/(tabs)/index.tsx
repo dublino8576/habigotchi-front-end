@@ -34,6 +34,7 @@ export default function Habits() {
     useCallback(() => {
       const checkOnboarding = async () => {
         const onboarded = await AsyncStorage.getItem("isOnboarded");
+
         const user_id = await AsyncStorage.getItem("user_id");
         console.log("Fetched isOnboarded value from AsyncStorage:", onboarded);
         setIsOnboarded(onboarded === "true"); // Ensures re-check on screen focus
@@ -45,6 +46,7 @@ export default function Habits() {
       };
 
       checkOnboarding();
+
     }, [updatedHabits])
   );
 
