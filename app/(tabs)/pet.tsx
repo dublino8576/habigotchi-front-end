@@ -1,11 +1,9 @@
-
 import {
   StyleSheet,
   TextInput,
   Pressable,
   Text,
   View,
-  Pressable,
   Button,
   Image,
   Platform,
@@ -18,29 +16,27 @@ import { Header } from "@/components/Header";
 import EditPet from "../drawers/edit-pet";
 import DeleteAccount from "../drawers/delete-account";
 
-import { Header } from "@/components/Header";
 import { useEffect, useCallback, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
-import { getPetByUsername } from "@/API/api";
+import { getPets } from "@/API/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-        import LogOut from "../drawers/logout";
-        import { GoogleGenerativeAI } from "@google/generative-ai";
-        import { usePetInfo } from "@/contexts/UserContext";
+import LogOut from "../drawers/logout";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { usePetInfo } from "@/contexts/UserContext";
 
- interface PetInfo {
-    pet_name: string | null;
-    current_coin: number | null;
-    pet_birthday: string | null;
-    pet_happiness: string | null;
-    pet_health: string | null;
-    pet_id: number | null;
-    pet_status: string | null;
-  }
+interface PetInfo {
+  pet_name: string | null;
+  current_coin: number | null;
+  pet_birthday: string | null;
+  pet_happiness: string | null;
+  pet_health: string | null;
+  pet_id: number | null;
+  pet_status: string | null;
+}
 
 const API_KEY = "AIzaSyDfe3eXhYtt-WlEAyUvVReIZhbiI6ZsnoU";
 export default function Pet() {
- 
- const { petName } = usePetInfo();
+  const { petName } = usePetInfo();
   const [question, setQuestion] = useState("");
   const [response, setResponse] = useState("");
   const [petinfo, setPetInfo] = useState<PetInfo>();
@@ -53,13 +49,12 @@ export default function Pet() {
         username = await AsyncStorage.getItem("user_name");
       };
       fetchUsername();
-      getPetByUsername(username).then((returnedPet) => {
+      getPets(username).then((returnedPet) => {
         setPetInfo(returnedPet);
       });
     }, [])
   );
 
- 
   const askLilPengo = async () => {
     const genAI = new GoogleGenerativeAI(API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
@@ -71,7 +66,6 @@ export default function Pet() {
 
     setResponse(responseText || "No response received.");
   };
-
 
   return (
     <ParallaxScrollView

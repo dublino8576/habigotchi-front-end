@@ -46,7 +46,6 @@ export default function Habits() {
       };
 
       checkOnboarding();
-
     }, [updatedHabits])
   );
 
@@ -122,11 +121,27 @@ export default function Habits() {
                     setUpdatedHabits={setUpdatedHabits}
                     updatedHabits={updatedHabits}
                   />
-                  <Text style={styles.habitName}>{habit.habit_name}</Text>
+                  <Text
+                    style={
+                      habit.habit_status == "Completed"
+                        ? styles.completedHabitName
+                        : styles.habitName
+                    }
+                  >
+                    {habit.habit_name}
+                  </Text>
                   <Text style={styles.habitDescription}>
                     {habit.habit_description}
                   </Text>
-                  <Text style={styles.habitStreak}>{habit.habit_category}</Text>
+                  <Text
+                    style={
+                      habit.habit_status == "Completed"
+                        ? styles.completedategoryText
+                        : styles.categoryText
+                    }
+                  >
+                    {habit.habit_category}
+                  </Text>
                   <Text style={styles.habitProgress}>
                     Progress: {habit.habit_status}
                   </Text>
@@ -174,15 +189,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 5, */
   },
+  completedHabitName: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#1C5253",
+  },
   habitName: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#333",
+    color: "#556b2f",
   },
+
   habitDescription: {
     fontSize: 14,
     color: "#555",
     marginVertical: 5,
+    marginBottom: 7,
   },
   habitStreak: {
     fontSize: 16,
@@ -196,11 +218,22 @@ const styles = StyleSheet.create({
 
   habitFrequency: {
     fontSize: 16,
-    color: "#556b2f",
+    color: "#B6174B",
     fontWeight: "bold",
   },
   completedHabitContainer: {
     backgroundColor: "#bcfd49",
     // backgroundColor: "#212121",
+  },
+  categoryText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#556b2f",
+    // color: "#1C5253",
+  },
+  completedategoryText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#1C5253",
   },
 });
