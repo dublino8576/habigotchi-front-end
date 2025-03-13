@@ -114,7 +114,6 @@ export default function Habits() {
                       : null,
                   ]}
                 >
-                  {" "}
                   <EditHabit
                     habitId={habit.habit_id}
                     setUpdatedHabits={setUpdatedHabits}
@@ -132,17 +131,7 @@ export default function Habits() {
                   </Text>
                   <Text style={styles.habitFrequency}>
                     {habit.habit_frequency}
-                    {/* <Text style={styles.habitName}>
-                      {" "}
-                      {habit.habit_frequency_times}x
-                    </Text> */}
                   </Text>
-                  {/* <Text style={styles.habitStreak}>
-                    Current Streak: {habit.currentStreak} days
-                  </Text>
-                  <Text style={styles.habitProgress}>
-                    Progress: {habit.completedTasks}/{habit.totalTasks}
-                  </Text> */}
                 </View>
               );
             }
