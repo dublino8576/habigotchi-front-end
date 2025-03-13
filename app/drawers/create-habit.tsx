@@ -102,6 +102,7 @@ export default function CreateHabit({
               <Text style={styles.label}>Habit Name</Text>
               <TextInput
                 style={styles.input}
+                placeholderTextColor="#999"
                 value={name}
                 onChangeText={setName}
                 placeholder="Enter habit name"
@@ -111,6 +112,7 @@ export default function CreateHabit({
               <TextInput
                 style={styles.input}
                 value={description}
+                placeholderTextColor="#999"
                 onChangeText={setDescription}
                 placeholder="Enter habit description"
               />

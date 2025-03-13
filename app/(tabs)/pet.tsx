@@ -114,13 +114,6 @@ export default function Pet() {
       <EditPet />
       <LogOut />
       <DeleteAccount />
-      {/* {petinfo ? (
-        <View>
-          <Text>Name:{petinfo.pet_name}</Text>
-          <Text>Status:{petinfo.pet_name}</Text>
-          <Text>Age:{petinfo.pet_birthday}</Text>
-        </View>
-      ) : null} */}
     </ParallaxScrollView>
   );
 }
