@@ -111,6 +111,7 @@ export default function EditHabit({
               <TextInput
                 style={styles.input}
                 placeholder="Update Habit Name"
+                placeholderTextColor="#999"
                 value={habitName}
                 onChangeText={setHabitName}
               ></TextInput>
@@ -118,6 +119,7 @@ export default function EditHabit({
               <TextInput
                 style={styles.input}
                 placeholder="Update Description"
+                placeholderTextColor="#999"
                 value={description}
                 onChangeText={setDescription}
               ></TextInput>
