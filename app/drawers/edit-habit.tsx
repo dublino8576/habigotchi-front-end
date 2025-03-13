@@ -224,12 +224,6 @@ export default function EditHabit({
                   <Text style={styles.textStyle}>Delete</Text>
                 </Pressable>
               </View>
-              {/* <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => UPDATE HABITS HERE setModalVisible(!modalVisible)}
-              >
-                <Text style={styles.textStyle}>Freeze</Text>
-              </Pressable>*/}
             </View>
           </View>
         </Modal>

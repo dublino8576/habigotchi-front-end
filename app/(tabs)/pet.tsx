@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   statText: {
     fontSize: 16,
     marginBottom: 4,
-    color: "#000",
+    color: "#ffcc00",
   },
   boldText: {
     fontWeight: "bold",
