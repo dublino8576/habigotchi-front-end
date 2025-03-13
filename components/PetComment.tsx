@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Text, StyleSheet, View } from "react-native";
 import { usePetInfo } from "@/contexts/UserContext";
+import { useFocusEffect } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // we can use the usePetInfo / some other global user context to import petName
 
@@ -49,7 +51,23 @@ const styles = StyleSheet.create({
 });
 
 export function PetComment() {
-  const { petComment, setPetComment, petName } = usePetInfo();
+  const { petComment, setPetComment, petName, setPetName } = usePetInfo();
+
+  useFocusEffect(
+    useCallback(() => {
+      const checkPetInfo = async () => {
+        const pet_name = await AsyncStorage.getItem("pet_name");
+        console.log("PETNAME", pet_name);
+        setPetName(pet_name);
+        // const keys = await AsyncStorage.getAllKeys();
+        // const result = await AsyncStorage.multiGet(keys);
+        // console.log("ALL KEYS", keys);
+        // console.log("ALL VALUES", result);
+      };
+      checkPetInfo();
+    }, [])
+  );
+
   return (
     <View>
       <Text style={styles.petName}>{petName}</Text>

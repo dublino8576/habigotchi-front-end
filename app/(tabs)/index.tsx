@@ -28,23 +28,26 @@ export default function Habits() {
   const [isOnboarded, setIsOnboarded] = useState<boolean>(true);
   const navigation = useNavigation();
   const { habits, setHabits } = usePetInfo();
-  let user_id: any;
+  const [updatedHabits, setUpdatedHabits] = useState<boolean>(false);
 
   useFocusEffect(
     useCallback(() => {
       const checkOnboarding = async () => {
         const onboarded = await AsyncStorage.getItem("isOnboarded");
-        user_id = await AsyncStorage.getItem("user_id");
 
+        const user_id = await AsyncStorage.getItem("user_id");
+        console.log("Fetched isOnboarded value from AsyncStorage:", onboarded);
         setIsOnboarded(onboarded === "true"); // Ensures re-check on screen focus
+
+        getHabits(user_id).then((allHabits) => {
+          console.log(allHabits, "<-------");
+          setHabits(allHabits);
+        });
       };
 
       checkOnboarding();
 
-      getHabits(user_id).then((allHabits) => {
-        setHabits(allHabits);
-      });
-    }, [habits])
+    }, [updatedHabits])
   );
 
   useLayoutEffect(() => {
@@ -78,7 +81,10 @@ export default function Habits() {
           <ThemedView style={styles.titleContainer}>
             <ThemedText type="title">Habits</ThemedText>
           </ThemedView>
-          <CreateHabit />
+          <CreateHabit
+            setUpdatedHabits={setUpdatedHabits}
+            updatedHabits={updatedHabits}
+          />
 
           {habits.map(
             (habit: {
@@ -90,6 +96,7 @@ export default function Habits() {
               habit_name: string;
               habit_status: string;
               user_id: number;
+              habit_description: string;
 
               // completedTasks: number;
 
@@ -102,15 +109,28 @@ export default function Habits() {
                   key={habit.habit_id}
                   style={[
                     styles.habitContainer,
-                    // habit.completedTasks == habit.totalTasks &&
-                    //   styles.completedHabitContainer,
+                    habit.habit_status == "Completed"
+                      ? styles.completedHabitContainer
+                      : null,
                   ]}
                 >
-                  <EditHabit id={habit.habit_id} />
+                  <Text style={styles.habitFrequency}>
+                    {habit.habit_frequency}
+                  </Text>
+                  <EditHabit
+                    habitId={habit.habit_id}
+                    setUpdatedHabits={setUpdatedHabits}
+                    updatedHabits={updatedHabits}
+                  />
                   <Text style={styles.habitName}>{habit.habit_name}</Text>
                   <Text style={styles.habitDescription}>
-                    {habit.habit_category}
+                    {habit.habit_description}
                   </Text>
+                  <Text style={styles.habitStreak}>{habit.habit_category}</Text>
+                  <Text style={styles.habitProgress}>
+                    Progress: {habit.habit_status}
+                  </Text>
+
                   {/* <Text style={styles.habitStreak}>
                     Current Streak: {habit.currentStreak} days
                   </Text>
@@ -170,10 +190,17 @@ const styles = StyleSheet.create({
     color: "#FFD700",
   },
   habitProgress: {
-    fontSize: 16,
+    fontSize: 14,
     color: "#444",
+  },
+
+  habitFrequency: {
+    fontSize: 16,
+    color: "#556b2f",
+    fontWeight: "bold",
   },
   completedHabitContainer: {
     backgroundColor: "#bcfd49",
+    // backgroundColor: "#212121",
   },
 });

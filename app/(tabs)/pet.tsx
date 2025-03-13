@@ -1,22 +1,65 @@
-import { StyleSheet, TextInput, Pressable, Text, View } from "react-native";
+
+import {
+  StyleSheet,
+  TextInput,
+  Pressable,
+  Text,
+  View,
+  Pressable,
+  Button,
+  Image,
+  Platform,
+} from "react-native";
+
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import { Header } from "@/components/Header";
 import EditPet from "../drawers/edit-pet";
 import DeleteAccount from "../drawers/delete-account";
-import LogOut from "../drawers/logout";
-import { useState } from "react";
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import { usePetInfo } from "@/contexts/UserContext";
 
+import { Header } from "@/components/Header";
+import { useEffect, useCallback, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { getPetByUsername } from "@/API/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+        import LogOut from "../drawers/logout";
+        import { GoogleGenerativeAI } from "@google/generative-ai";
+        import { usePetInfo } from "@/contexts/UserContext";
+
+ interface PetInfo {
+    pet_name: string | null;
+    current_coin: number | null;
+    pet_birthday: string | null;
+    pet_happiness: string | null;
+    pet_health: string | null;
+    pet_id: number | null;
+    pet_status: string | null;
+  }
 
 const API_KEY = "AIzaSyDfe3eXhYtt-WlEAyUvVReIZhbiI6ZsnoU";
 export default function Pet() {
-  const { petName } = usePetInfo();
+ 
+ const { petName } = usePetInfo();
   const [question, setQuestion] = useState("");
   const [response, setResponse] = useState("");
+  const [petinfo, setPetInfo] = useState<PetInfo>();
+  let username: any;
 
+  useFocusEffect(
+    useCallback(() => {
+      console.log("PET", petinfo);
+      const fetchUsername = async () => {
+        username = await AsyncStorage.getItem("user_name");
+      };
+      fetchUsername();
+      getPetByUsername(username).then((returnedPet) => {
+        setPetInfo(returnedPet);
+      });
+    }, [])
+  );
+
+ 
   const askLilPengo = async () => {
     const genAI = new GoogleGenerativeAI(API_KEY);
     const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
@@ -28,6 +71,7 @@ export default function Pet() {
 
     setResponse(responseText || "No response received.");
   };
+
 
   return (
     <ParallaxScrollView
@@ -75,6 +119,13 @@ export default function Pet() {
       <EditPet />
       <LogOut />
       <DeleteAccount />
+      {petinfo ? (
+        <View>
+          <Text>Name:{petinfo.pet_name}</Text>
+          <Text>Status:{petinfo.pet_name}</Text>
+          <Text>Age:{petinfo.pet_birthday}</Text>
+        </View>
+      ) : null}
     </ParallaxScrollView>
   );
 }

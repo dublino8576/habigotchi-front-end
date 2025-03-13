@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import {
   Alert,
@@ -12,22 +12,79 @@ import {
 import { SafeAreaView, SafeAreaProvider } from "react-native-safe-area-context";
 import { usePetInfo } from "@/contexts/UserContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { addHabit } from "@/API/api";
+import { addHabit, updateUser, getUser } from "@/API/api";
+import DropDownPicker from "react-native-dropdown-picker";
 
-export default function CreateHabit() {
+interface CreateHabitProps {
+  setUpdatedHabits: React.Dispatch<React.SetStateAction<boolean>>;
+  updatedHabits: boolean;
+}
+
+interface userStats {
+  user_name: string;
+  isOnboarded: boolean;
+  user_id: number;
+  highest_streak: number;
+  habits_tracked: 0;
+  pet_id: number;
+  coins_spent: number;
+  coins_earned: number;
+  bought_strawberry: number;
+  bought_ice_cream: number;
+  bought_ball: number;
+  bought_apple: number;
+}
+
+export default function CreateHabit({
+  setUpdatedHabits,
+  updatedHabits,
+}: CreateHabitProps) {
   const [modalVisible, setModalVisible] = useState(false);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [totalTasks, setTotalTasks] = useState("");
-  const { setHabits } = usePetInfo();
+  const [userStats, setUserStats] = useState<userStats | null>(null);
   const [user_id, setUser_id] = useState(1);
+  const [openCategory, setOpenCategory] = useState(false);
+  const [openFrequency, setOpenFrequency] = useState(false);
+  const [category, setCategory] = useState(null);
+  const [categoryItems, setCategoryItems] = useState([
+    { label: "Health & Wellness", value: "Health & Wellness" },
+    { label: "Technology", value: "Technology" },
+    { label: "Nutrition", value: "Nutrition" },
+    { label: "Work", value: "Work" },
+    { label: "Finance", value: "Finance" },
+    { label: "Creativity", value: "Creativity" },
+    { label: "Music", value: "Music" },
+  ]);
 
-  const getUserId = async function () {
-    const temp: any = await AsyncStorage.getItem("user_id");
-    setUser_id(temp);
-  };
+  const [frequency, setFrequency] = useState(null);
+  const [frequencyItems, setFrequencyItems] = useState([
+    { label: "Daily", value: "Daily" },
+    { label: "Weekly", value: "Weekly" },
+  ]);
 
-  getUserId();
+
+  useEffect(() => {
+    if (modalVisible) {
+      console.log("MODALVISIBLE", modalVisible);
+      setCategory(null);
+      setName("");
+      setDescription("");
+      setTotalTasks("");
+    }
+    const getUserId = async function () {
+      const tempUserId: any = await AsyncStorage.getItem("user_id");
+      setUser_id(tempUserId);
+      getUser(tempUserId).then((userData) => {
+        console.log("UPDATED USER", userData);
+        setUserStats(userData);
+      });
+    };
+
+
+    getUserId();
+  }, [updatedHabits]);
 
   return (
     <SafeAreaProvider>
@@ -60,6 +117,46 @@ export default function CreateHabit() {
                 placeholder="Enter habit description"
               />
 
+              <View style={styles.container}>
+                <Text style={styles.label}>Category</Text>
+
+                <DropDownPicker
+                  open={openCategory}
+                  value={category}
+                  items={categoryItems}
+                  setOpen={setOpenCategory}
+                  setValue={setCategory}
+                  style={styles.dropdown}
+                  setItems={setCategoryItems}
+                  containerStyle={[styles.dropdownContainer, { zIndex: 2000 }]}
+                  dropDownContainerStyle={[
+                    styles.dropDownContainerStyle,
+                    { zIndex: 2000 },
+                  ]}
+                  placeholder="Select a Category"
+                />
+              </View>
+
+              <View style={styles.container}>
+                <Text style={styles.label}>Frequency</Text>
+
+                <DropDownPicker
+                  open={openFrequency}
+                  value={frequency}
+                  items={frequencyItems}
+                  setOpen={setOpenFrequency}
+                  setValue={setFrequency}
+                  setItems={setFrequencyItems}
+                  style={styles.dropdown}
+                  containerStyle={[styles.dropdownContainer, { zIndex: 1000 }]}
+                  dropDownContainerStyle={[
+                    styles.dropDownContainerStyle,
+                    { zIndex: 2000 },
+                  ]}
+                  placeholder="Select a Frequency"
+                />
+              </View>
+
               <Text style={styles.label}>Total Tasks</Text>
               <TextInput
                 style={styles.input}
@@ -74,7 +171,10 @@ export default function CreateHabit() {
                 onPress={() => {
                   const reqBody = {
                     habit_name: name,
-                    habit_category: description,
+                    habit_category: category,
+                    habit_description: description,
+                    habit_status: "pending",
+                    habit_frequency: frequency,
                   };
                   addHabit(reqBody, user_id);
                   // setHabits((prev: any) => [
@@ -87,6 +187,11 @@ export default function CreateHabit() {
                   //     completedTasks: 0,
                   //   },
                   // ]);
+                  const updateUserBody = {
+                    habits_tracked: (userStats?.habits_tracked ?? 0) + 1,
+                  };
+                  updateUser(updateUserBody, user_id);
+                  setUpdatedHabits(!updatedHabits);
                   setModalVisible(!modalVisible);
                 }}
               >
@@ -104,7 +209,13 @@ export default function CreateHabit() {
 
         <Pressable
           style={[styles.button, styles.buttonOpen]}
-          onPress={() => setModalVisible(true)}
+          onPress={() => {
+            setCategory(null);
+            setName("");
+            setDescription("");
+            setTotalTasks("");
+            setModalVisible(true);
+          }}
         >
           <Text style={styles.textStyle}>Create habit</Text>
         </Pressable>
@@ -182,12 +293,34 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   input: {
-    width: "100%",
+    width: "80%",
     height: 40,
     borderColor: "#ccc",
     borderWidth: 1,
-    marginBottom: 15,
+    marginBottom: 20,
     paddingLeft: 10,
     borderRadius: 5,
+  },
+  container: {
+    padding: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingTop: 0,
+    paddingBottom: 0,
+    marginBottom: 20,
+  },
+  dropdownContainer: {
+    width: "100%",
+  },
+  dropdown: {
+    backgroundColor: "#fafafa",
+    borderWidth: 1,
+    borderColor: "#ccc",
+  },
+  dropDownContainerStyle: {
+    borderWidth: 1,
+    borderColor: "#ccc",
   },
 });

@@ -22,6 +22,7 @@ export const addPet = (reqBody) => {
   });
 };
 
+
 export const getPets = (username) => {
   return habigotchiServer.get(`/pets/${username}`).then(({ data }) => {
     return data;
@@ -47,9 +48,11 @@ export const getUser = (user_id) => {
 };
 
 export const addHabit = (reqBody, user_id) => {
+  console.log("AXIOS HABIT BODY", reqBody);
   return habigotchiServer
     .post(`/habits/${user_id}`, reqBody)
     .then(({ data }) => {
+      console.log("AXIOS CREATED HABIT");
       return data;
     });
 };
@@ -78,17 +81,24 @@ export const deleteHabit = (habit_id) => {
 };
 
 export const updateHabit = (reqBody, habit_id) => {
+  console.log("AXIOS UPDATE HABIT BODY", reqBody, habit_id);
   return habigotchiServer
     .patch(`/habits/${habit_id}`, reqBody)
     .then(({ data }) => {
+      console.log("AXIOS UPDATE HABIT", data.updatedHabit);
       return data.updatedHabit[0];
+    })
+    .catch((err) => {
+      console.log("AXIOS UPDATE HABIT ERROR", err);
     });
 };
 
 export const updateUser = (reqBody, user_id) => {
+  console.log("AXIOS UPDATE USER PAYLOAD", reqBody, user_id);
   return habigotchiServer
     .patch(`/users/${user_id}`, reqBody)
     .then(({ data }) => {
+      console.log("AXIOS UPDATE USER SUCCESS", data.upDatedUser[0]);
       return data.upDatedUser[0];
     })
     .catch((err) => {
@@ -104,34 +114,4 @@ export const deleteUser = (user_id) => {
     });
 };
 
-// const reqBody = {
-//   user_onboarded: true,
-//   habits_tracked: 2,
-//   coins_earned: 40,
-//   coins_spent: 20,
-//   highest_streak: 2,
-//   bought_apple: 2,
-//   bought_ball: 10,
-//   pet_id: 2,
-// };
 
-// updateUser(reqBody, 1).then((result) => {
-//   console.log(result);
-// });
-
-// export const getPetByUsername = (reqBody) => {
-//   const { pet_name, pet_status } = reqBody;
-//   return habigotchiServer.post("/pets", reqBody).then(({ data }) => {
-//     return data;
-//   });
-// };
-
-// export const getAPI = (topic, sort_by, order) => {
-//   const Params = !topic
-//     ? { params: { sort_by, order } }
-//     : { params: { topic } };
-
-//   return habigotchiServer.get("/endpoints").then((response) => {
-//     return response.data.allArticles;
-//   });
-// };

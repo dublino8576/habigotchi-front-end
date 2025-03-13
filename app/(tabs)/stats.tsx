@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Header } from "@/components/Header";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { useEffect, useCallback } from "react";
+import { useFocusEffect } from "expo-router";
+import { usePetInfo } from "@/contexts/UserContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { getUser } from "@/API/api";
 
 export default function Stats() {
   const trackerData = {
@@ -14,6 +19,43 @@ export default function Stats() {
     mostBoughtFood: "🍎",
     highestStreak: 15,
   };
+
+  interface userStats {
+    user_name: string;
+    isOnboarded: boolean;
+    user_id: number;
+    highest_streak: number;
+    habits_tracked: number;
+    total_tasks_completed: number;
+    pet_id: number;
+    coins_spent: number;
+    coins_earned: number;
+    bought_strawberry: number;
+    bought_ice_cream: number;
+    bought_ball: number;
+    bought_apple: number;
+  }
+
+  const [userStats, setUserStats] = useState<userStats | null>(null);
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchUserId = async () => {
+        const user_id = await AsyncStorage.getItem("user_id");
+
+        // const keys = await AsyncStorage.getAllKeys();
+        // const result = await AsyncStorage.multiGet(keys);
+        // console.log("ALL KEYS", keys);
+        // console.log("ALL VALUES", result);
+
+        getUser(user_id).then((userStats) => {
+          console.log("USER STATS", userStats);
+          setUserStats(userStats);
+        });
+      };
+      fetchUserId();
+    }, [])
+  );
 
   return (
     <ParallaxScrollView
@@ -26,12 +68,14 @@ export default function Stats() {
         <View style={styles.statsContainer}>
           <View style={styles.statCard}>
             <Text style={styles.statTitle}>Habits Tracked</Text>
-            <Text style={styles.statValue}>{trackerData.habitsTracked}</Text>
+            <Text style={styles.statValue}>{userStats?.habits_tracked}</Text>
           </View>
 
           <View style={styles.statCard}>
             <Text style={styles.statTitle}>Total Tasks Completed</Text>
-            <Text style={styles.statValue}>{trackerData.tasksCompleted}</Text>
+            <Text style={styles.statValue}>
+              {userStats?.total_tasks_completed}
+            </Text>
           </View>
 
           <View style={styles.statCard}>
@@ -41,7 +85,7 @@ export default function Stats() {
                 source={require("../../assets/images/coin.png")}
                 style={styles.statIcon}
               />
-              <Text style={styles.statValue}>{trackerData.coinsEarned}</Text>
+              <Text style={styles.statValue}>{userStats?.coins_earned}</Text>
             </View>
           </View>
 
@@ -52,7 +96,7 @@ export default function Stats() {
                 source={require("../../assets/images/coin.png")}
                 style={styles.statIcon}
               />
-              <Text style={styles.statValue}>{trackerData.coinsSpent}</Text>
+              <Text style={styles.statValue}>{userStats?.coins_spent}</Text>
             </View>
           </View>
 
@@ -65,7 +109,7 @@ export default function Stats() {
             <Text style={styles.statTitle}>Highest Streak</Text>
             <View style={styles.statIconRow}>
               <Text style={styles.statValue}>
-                ⚡{trackerData.highestStreak}x
+                ⚡{userStats?.highest_streak}x
               </Text>
             </View>
           </View>
@@ -85,6 +129,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 10,
     alignItems: "center",
+    width: "100%",
   },
   statCard: {
     backgroundColor: "#212121",

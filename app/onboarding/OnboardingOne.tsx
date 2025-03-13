@@ -151,7 +151,8 @@ const OnboardingOne: React.FC<OnboardingOneProps> = ({
       ["isOnboarded", "true"],
       ["user_id", JSON.stringify(user_id)],
       ["pet_id", JSON.stringify(pet_id)],
-      ["user_name", JSON.stringify(username)],
+      ["user_name", username],
+      ["pet_name", createdPet.pet_name],
     ]);
 
     setLoading(false);
