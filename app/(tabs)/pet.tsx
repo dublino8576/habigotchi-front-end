@@ -5,6 +5,7 @@ import {
   Button,
   Image,
   Platform,
+  View,
 } from "react-native";
 
 import ParallaxScrollView from "@/components/ParallaxScrollView";
@@ -15,8 +16,38 @@ import { IconSymbol } from "@/components/ui/IconSymbol";
 import EditPet from "../drawers/edit-pet";
 import DeleteAccount from "../drawers/delete-account";
 import { Header } from "@/components/Header";
+import { useEffect, useCallback, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import { getPetByUsername } from "@/API/api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Pet() {
+  interface PetInfo {
+    pet_name: string | null;
+    current_coin: number | null;
+    pet_birthday: string | null;
+    pet_happiness: string | null;
+    pet_health: string | null;
+    pet_id: number | null;
+    pet_status: string | null;
+  }
+
+  const [petinfo, setPetInfo] = useState<PetInfo>();
+  let username: any;
+
+  useFocusEffect(
+    useCallback(() => {
+      console.log("PET", petinfo);
+      const fetchUsername = async () => {
+        username = await AsyncStorage.getItem("user_name");
+      };
+      fetchUsername();
+      getPetByUsername(username).then((returnedPet) => {
+        setPetInfo(returnedPet);
+      });
+    }, [])
+  );
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#D0D0D0", dark: "#90D2E4" }}
@@ -27,6 +58,13 @@ export default function Pet() {
       </ThemedView>
       <EditPet />
       <DeleteAccount />
+      {petinfo ? (
+        <View>
+          <Text>Name:{petinfo.pet_name}</Text>
+          <Text>Status:{petinfo.pet_name}</Text>
+          <Text>Age:{petinfo.pet_birthday}</Text>
+        </View>
+      ) : null}
     </ParallaxScrollView>
   );
 }

@@ -17,39 +17,41 @@ export function PetInfoProvider({ children }: { children: ReactNode }) {
   const [selectedPet, setSelectedPet] = useState("petOne");
   const [username, setUsername] = useState("");
   const [petName, setPetName] = useState("");
+  const [userId, setUserId] = useState("");
   const [name, setName] = useState("");
   const [character, setCharacter] = useState(0);
   const [petComment, setPetComment] = useState("Hi, nice to meet you!");
-  const [habits, setHabits] = useState([
-    {
-      name: "Exercise",
-      description: "Daily workout for 30 minutes",
-      currentStreak: 5,
-      completedTasks: 15,
-      totalTasks: 30,
-    },
-    {
-      name: "Drink Water",
-      description: "Drink 8 glasses of water daily",
-      currentStreak: 10,
-      completedTasks: 8,
-      totalTasks: 8,
-    },
-    {
-      name: "Read a Book",
-      description: "Read for 30 minutes every day",
-      currentStreak: 3,
-      completedTasks: 20,
-      totalTasks: 30,
-    },
-    {
-      name: "No Junk Food",
-      description: "Avoid junk food for better health",
-      currentStreak: 7,
-      completedTasks: 0,
-      totalTasks: 1,
-    },
-  ]);
+  const [habits, setHabits] = useState([]);
+  // [
+  //   {
+  //     name: "Exercise",
+  //     description: "Daily workout for 30 minutes",
+  //     currentStreak: 5,
+  //     completedTasks: 15,
+  //     totalTasks: 30,
+  //   },
+  //   {
+  //     name: "Drink Water",
+  //     description: "Drink 8 glasses of water daily",
+  //     currentStreak: 10,
+  //     completedTasks: 8,
+  //     totalTasks: 8,
+  //   },
+  //   {
+  //     name: "Read a Book",
+  //     description: "Read for 30 minutes every day",
+  //     currentStreak: 3,
+  //     completedTasks: 20,
+  //     totalTasks: 30,
+  //   },
+  //   {
+  //     name: "No Junk Food",
+  //     description: "Avoid junk food for better health",
+  //     currentStreak: 7,
+  //     completedTasks: 0,
+  //     totalTasks: 1,
+  //   },
+  // ]
   const [friends, setFriends] = useState([
     {
       userName: "Pando",

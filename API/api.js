@@ -22,12 +22,12 @@ export const addPet = (reqBody) => {
   });
 };
 
-export const getPets = (reqBody, user_name) => {
-  return habigotchiServer
-    .post(`/pets/${user_name}`, reqBody)
-    .then(({ data }) => {
-      return data;
-    });
+export const getPetByUsername = (user_name) => {
+  console.log("USNERANME", user_name);
+  console.log("URL", `/pets/${user_name}`);
+  return habigotchiServer.get(`/pets/${user_name}`).then(({ data }) => {
+    return data;
+  });
 };
 
 export const addUser = (reqBody) => {
@@ -49,9 +49,11 @@ export const getUser = (user_id) => {
 };
 
 export const addHabit = (reqBody, user_id) => {
+  console.log("AXIOS HABIT BODY", reqBody);
   return habigotchiServer
     .post(`/habits/${user_id}`, reqBody)
     .then(({ data }) => {
+      console.log("AXIOS CREATED HABIT");
       return data;
     });
 };
@@ -77,18 +79,28 @@ export const deleteHabit = (habit_id) => {
 };
 
 export const updateHabit = (reqBody, habit_id) => {
+  console.log("AXIOS UPDATE HABIT BODY", reqBody, habit_id);
   return habigotchiServer
     .patch(`/habits/${habit_id}`, reqBody)
     .then(({ data }) => {
+      console.log("AXIOS UPDATE HABIT", data.updatedHabit);
       return data.updatedHabit[0];
+    })
+    .catch((err) => {
+      console.log("AXIOS UPDATE HABIT ERROR", err);
     });
 };
 
 export const updateUser = (reqBody, user_id) => {
+  console.log("AXIOS UPDATE USER PAYLOAD", reqBody, user_id);
   return habigotchiServer
     .patch(`/users/${user_id}`, reqBody)
     .then(({ data }) => {
+      console.log("AXIOS UPDATE USER SUCCESS", data.upDatedUser[0]);
       return data.upDatedUser[0];
+    })
+    .catch((err) => {
+      console.log("AXIOS UPDATE USER ERROR", err);
     });
 };
 
