@@ -96,6 +96,7 @@ export default function Habits() {
               habit_status: string;
               user_id: number;
               habit_description: string;
+              habit_frequency_times: number;
 
               // completedTasks: number;
 
@@ -131,6 +132,10 @@ export default function Habits() {
                   </Text>
                   <Text style={styles.habitFrequency}>
                     {habit.habit_frequency}
+                    {/* <Text style={styles.habitName}>
+                      {" "}
+                      {habit.habit_frequency_times}x
+                    </Text> */}
                   </Text>
                   {/* <Text style={styles.habitStreak}>
                     Current Streak: {habit.currentStreak} days
@@ -209,7 +214,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   completedHabitContainer: {
-    backgroundColor: "#bcfd49",
+    // backgroundColor: "#bcfd49",
+    backgroundColor: "#FFD700",
     // backgroundColor: "#212121",
   },
   categoryText: {

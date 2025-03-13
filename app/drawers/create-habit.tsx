@@ -64,7 +64,6 @@ export default function CreateHabit({
     { label: "Weekly", value: "Weekly" },
   ]);
 
-
   useEffect(() => {
     if (modalVisible) {
       console.log("MODALVISIBLE", modalVisible);
@@ -81,7 +80,6 @@ export default function CreateHabit({
         setUserStats(userData);
       });
     };
-
 
     getUserId();
   }, [updatedHabits]);
@@ -175,6 +173,7 @@ export default function CreateHabit({
                     habit_description: description,
                     habit_status: "pending",
                     habit_frequency: frequency,
+                    habit_frequency_times: totalTasks,
                   };
                   addHabit(reqBody, user_id);
                   // setHabits((prev: any) => [
