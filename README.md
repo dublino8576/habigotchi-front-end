@@ -20,7 +20,7 @@ To watch a demo presentation, click on the image below.
 [![Watch the video](https://img.youtube.com/vi/L1RHwscyn30/0.jpg)](https://youtu.be/L1RHwscyn30)
 
 ## Get started
-(Make sure you [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) this repository on your local machine first)
+_(Make sure you [clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) this repository on your local machine first)_
 1. Install dependencies
 
    ```bash
