@@ -3,7 +3,6 @@
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
 Habigotchi is a mindful gaming experience that allows you to improve your habits whilst taking care of your pet!
-To watch a demo presentation, click on the link below.
 
 This project is in Typescript. 
 Features of this project include: 
@@ -14,7 +13,9 @@ Features of this project include:
 + **Creating, editing, deleting habits;** 
 + **Recording stats like habits tracked or completed, most bought food, coins spent;** 
 + **Consistent bar over the pages showing current health, happiness and coins available;** 
-+ **Asking AI for positive affirmations or plans to stick to your habits.** 
++ **Asking AI for positive affirmations or plans to stick to your habits.**
+  
+To watch a demo presentation, click on the image below.
 
 [![Watch the video](https://img.youtube.com/vi/L1RHwscyn30/0.jpg)](https://youtu.be/L1RHwscyn30)
 
