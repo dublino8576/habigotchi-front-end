@@ -6,15 +6,15 @@ Habigotchi is a mindful gaming experience that allows you to improve your habits
 To watch a demo presentation, click on the link below.
 
 This project is in Typescript. 
-Features of this project include: \
-+ **Creating new user/ logging in as existing user;** \
-+ **Choosing a pet name for new user;** \
-+ **Fully integrated Lottie animations with the landing page;** \
-+ **Shopping for cosmetics and food options to improve your pet's health and happiness;** \
-+ **Creating, editing, deleting habits;** \
-+ **Recording stats like habits tracked or completed, most bought food, coins spent;** \
-+ **Consistent bar over the pages showing current health, happiness and coins available;** \
-+ **Asking AI for positive affirmations or plans to stick to your habits.** \
+Features of this project include: 
++ **Creating new user/ logging in as existing user;** 
++ **Choosing a pet name for new user;** 
++ **Fully integrated Lottie animations with the landing page;** 
++ **Shopping for cosmetics and food options to improve your pet's health and happiness;** 
++ **Creating, editing, deleting habits;** 
++ **Recording stats like habits tracked or completed, most bought food, coins spent;** 
++ **Consistent bar over the pages showing current health, happiness and coins available;** 
++ **Asking AI for positive affirmations or plans to stick to your habits.** 
 
 [![Watch the video](https://img.youtube.com/vi/L1RHwscyn30/0.jpg)](https://youtu.be/L1RHwscyn30)
 
